@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>С днём рождения, Ярик!</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Подключаем шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet">
-    <!-- ПОДКЛЮЧАЕМ FONT AWESOME ДЛЯ ИКОНОК -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Библиотека для конфетти -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
 </head>
 <body>
 
+    <!-- Фоновое видео (будет подставлено через JS) -->
+    <video id="bg-video" autoplay loop muted playsinline></video>
+
+    <!-- Фоновый canvas для частиц -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Навигация -->
     <nav class="tab-nav">
         <button class="tab-btn active" data-tab="yarik"><i class="fas fa-car"></i> Ярик</button>
         <button class="tab-btn" data-tab="olya"><i class="fas fa-heart"></i> Оля</button>
@@ -22,188 +29,284 @@
         <button class="tab-btn" data-tab="mikhail"><i class="fas fa-hammer"></i> Михаил</button>
     </nav>
 
+    <!-- Контейнер -->
     <main class="tab-container">
 
-        <!-- ВКЛАДКА 1: ЯРИК -->
+        <!-- ===== ВКЛАДКА ЯРИК ===== -->
         <section id="yarik" class="tab-content active" data-theme="yarik">
             <div class="tab-inner">
-                <h1><i class="fas fa-car" style="color: #e0a343;"></i> Ярик — повелитель «Чатырки»</h1>
+                <h1><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
                 <p class="description">
-                    <i class="fas fa-wrench" style="margin-right: 8px;"></i>
-                    Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. 
-                    В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. 
-                    Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, 
-                    завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
+                    <i class="fas fa-wrench"></i> Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
                 </p>
-                <div class="gallery">
-                    <img src="images/yarik/1.jpg" alt="Ярик">
-                    <img src="images/yarik/2.jpg" alt="Ярик">
-                    <img src="images/yarik/3.jpg" alt="Ярик">
+                <!-- Карусель -->
+                <div class="carousel-container" data-theme="yarik">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/yarik/1.jpg" alt="Ярик в гараже">
+                            <p class="caption">«Чат ы рка — это не просто машина, это стиль жизни»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/yarik/2.jpg" alt="Ярик с друзьями">
+                            <p class="caption">«Когда сварка удалась, и всё ровно»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/yarik/3.jpg" alt="Ярик улыбается">
+                            <p class="caption">«Улыбка, которая греет даже в гараже»</p>
+                        </div>
+                        <!-- добавьте ещё слайды по желанию -->
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
+
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/yarik.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/yarik.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 2: ОЛЯ -->
+        <!-- ===== ВКЛАДКА ОЛЯ ===== -->
         <section id="olya" class="tab-content" data-theme="olya">
             <div class="tab-inner">
-                <h1><i class="fas fa-heart" style="color: #f7a1c4;"></i> Оля — нежность со сковородой</h1>
+                <h1><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
                 <p class="description">
-                    <i class="fas fa-utensils" style="margin-right: 8px;"></i>
-                    Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. 
-                    Оля — это греющий компромисс между плюшевым мишкой и терминатором. 
-                    Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, 
-                    кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.
+                    <i class="fas fa-utensils"></i> Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. Оля — это греющий компромисс между плюшевым мишкой и терминатором. Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.
                 </p>
-                <div class="gallery">
-                    <img src="images/olya/1.jpg" alt="Оля">
-                    <img src="images/olya/2.jpg" alt="Оля">
-                    <img src="images/olya/3.jpg" alt="Оля">
+                <div class="carousel-container" data-theme="olya">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/olya/1.jpg" alt="Оля и Ярик">
+                            <p class="caption">«Самый нежный взгляд, но сковорода наготове»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/olya/2.jpg" alt="Оля смеётся">
+                            <p class="caption">«Когда смех — лучшее оружие»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/olya.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/olya.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 3: АНДРЕЙ (врач) -->
+        <!-- ===== ВКЛАДКА АНДРЕЙ ===== -->
         <section id="andrey" class="tab-content" data-theme="andrey">
             <div class="tab-inner">
-                <h1><i class="fas fa-stethoscope" style="color: #2ecc71;"></i> Андрей — вечный начинатель</h1>
+                <h1><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
                 <p class="description">
-                    <i class="fas fa-pills" style="margin-right: 8px;"></i>
-                    Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. 
-                    Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, 
-                    а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно 
-                    думает — скорее всего, он просто вспоминает, куда положил ключи.
+                    <i class="fas fa-pills"></i> Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно думает — скорее всего, он просто вспоминает, куда положил ключи.
                 </p>
-                <div class="gallery">
-                    <img src="images/andrey/1.jpg" alt="Андрей">
-                    <img src="images/andrey/2.jpg" alt="Андрей">
-                    <img src="images/andrey/3.jpg" alt="Андрей">
+                <div class="carousel-container" data-theme="andrey">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/andrey/1.jpg" alt="Андрей с книгой">
+                            <p class="caption">«Готовится стать доктором, но пока учит нас, как не простудиться»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/andrey/2.jpg" alt="Андрей задумался">
+                            <p class="caption">«Кажется, он вспоминает, куда положил ключи... опять»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/andrey.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/andrey.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 4: АНДРЕЙ МЛАДШИЙ -->
+        <!-- ===== ВКЛАДКА АНДРЕЙ МЛАДШИЙ ===== -->
         <section id="andrey_m" class="tab-content" data-theme="andrey_m">
             <div class="tab-inner">
-                <h1><i class="fas fa-rocket" style="color: #ff7700;"></i> Андрей Младший — фанат ROCKET и CS2</h1>
+                <h1><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
                 <p class="description">
-                    <i class="fas fa-gamepad" style="margin-right: 8px;"></i>
-                    Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, 
-                    кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные 
-                    раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: 
-                    «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он 
-                    давно перерос всех по харизме, просто скромничает.
+                    <i class="fas fa-gamepad"></i> Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он давно перерос всех по харизме, просто скромничает.
                 </p>
-                <div class="gallery">
-                    <img src="images/andrey_m/1.jpg" alt="Андрей Младший">
-                    <img src="images/andrey_m/2.jpg" alt="Андрей Младший">
-                    <img src="images/andrey_m/3.jpg" alt="Андрей Младший">
+                <div class="carousel-container" data-theme="andrey_m">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/andrey_m/1.jpg" alt="Андрей за компом">
+                            <p class="caption">«Его стихия — ракеты и хедшоты»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/andrey_m/2.jpg" alt="Андрей с друзьями">
+                            <p class="caption">«Когда CS2 переходит в реальную жизнь»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/andrey_m.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/andrey_m.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 5: ВАНЮША -->
+        <!-- ===== ВКЛАДКА ВАНЮША ===== -->
         <section id="vanusha" class="tab-content" data-theme="vanusha">
             <div class="tab-inner">
-                <h1><i class="fas fa-crown" style="color: #ff3b8a;"></i> Ванюша — the best фембой</h1>
+                <h1><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
                 <p class="description">
-                    <i class="fas fa-smile-wink" style="margin-right: 8px;"></i>
-                    Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. 
-                    Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. 
-                    Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему 
-                    особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же 
-                    станцевать вальс. С ним любая драма превращается в комедию.
+                    <i class="fas fa-smile-wink"></i> Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же станцевать вальс. С ним любая драма превращается в комедию.
                 </p>
-                <div class="gallery">
-                    <img src="images/vanusha/1.jpg" alt="Ванюша">
-                    <img src="images/vanusha/2.jpg" alt="Ванюша">
-                    <img src="images/vanusha/3.jpg" alt="Ванюша">
+                <div class="carousel-container" data-theme="vanusha">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/vanusha/1.jpg" alt="Ванюша улыбается">
+                            <p class="caption">«Этот взгляд способен разоружить любого»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/vanusha/2.jpg" alt="Ванюша в компании">
+                            <p class="caption">«Король вечеринок, даже если на нём только кепка»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/vanusha.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/vanusha.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 6: НИКИТА -->
+        <!-- ===== ВКЛАДКА НИКИТА ===== -->
         <section id="nikita" class="tab-content" data-theme="nikita">
             <div class="tab-inner">
-                <h1><i class="fas fa-satellite" style="color: #6fcf97;"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
+                <h1><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
                 <p class="description">
-                    <i class="fas fa-wifi" style="margin-right: 8px;"></i>
-                    Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. 
-                    Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер 
-                    с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. 
-                    Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки 
-                    уже стали частью нашего фольклора.
+                    <i class="fas fa-wifi"></i> Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки уже стали частью нашего фольклора.
                 </p>
-                <div class="gallery">
-                    <img src="images/nikita/1.jpg" alt="Никита">
-                    <img src="images/nikita/2.jpg" alt="Никита">
-                    <img src="images/nikita/3.jpg" alt="Никита">
+                <div class="carousel-container" data-theme="nikita">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/nikita/1.jpg" alt="Никита с ноутбуком">
+                            <p class="caption">«Сигнал есть всегда, если рядом Никита»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/nikita/2.jpg" alt="Никита смеётся">
+                            <p class="caption">«Смех, который ломает любые битые сектора»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/nikita.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/nikita.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ВКЛАДКА 7: МИХАИЛ (дварф) -->
+        <!-- ===== ВКЛАДКА МИХАИЛ ===== -->
         <section id="mikhail" class="tab-content" data-theme="mikhail">
             <div class="tab-inner">
-                <h1><i class="fas fa-hammer" style="color: #d4a017;"></i> Михаил — подгорный властелин</h1>
+                <h1><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
                 <p class="description">
-                    <i class="fas fa-beer" style="margin-right: 8px;"></i>
-                    Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, 
-                    если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе 
-                    с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, 
-                    как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. 
-                    Наша скала, наш кузнец, наш звёздный подгорный властелин.
+                    <i class="fas fa-beer"></i> Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. Наша скала, наш кузнец, наш звёздный подгорный властелин.
                 </p>
-                <div class="gallery">
-                    <img src="images/mikhail/1.jpg" alt="Михаил">
-                    <img src="images/mikhail/2.jpg" alt="Михаил">
-                    <img src="images/mikhail/3.jpg" alt="Михаил">
+                <div class="carousel-container" data-theme="mikhail">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="images/mikhail/1.jpg" alt="Михаил с бородой">
+                            <p class="caption">«Борода — это не просто аксессуар, это боевой щит»</p>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/mikhail/2.jpg" alt="Михаил с кружкой">
+                            <p class="caption">«Кружка пива — лучшее лекарство от всех болезней»</p>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots"></div>
                 </div>
                 <div class="audio-wrapper">
                     <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <audio controls>
-                        <source src="audio/mikhail.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="player">
+                        <audio src="audio/mikhail.mp3" preload="metadata"></audio>
+                        <div class="controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- Таймер до дня рождения (появится только если дата в будущем) -->
+    <div id="birthday-timer" style="display:none;">
+        <div class="timer-content">
+            <i class="fas fa-gift"></i>
+            <span id="timer-text"></span>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

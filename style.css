@@ -1,4 +1,4 @@
-/* ===== БАЗОВЫЕ СТИЛИ ===== */
+/* ===== БАЗА ===== */
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +7,37 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1a1a1a;
     color: #f0f0f0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: background 0.6s ease;
     position: relative;
+    overflow-x: hidden;
+    transition: background 0.8s ease;
+}
+
+/* === ФОНОВОЕ ВИДЕО === */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: 0.5; /* чтобы не перебивать контент */
+    transition: opacity 0.8s;
+}
+
+/* === ЧАСТИЦЫ (canvas) === */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* ===== НАВИГАЦИЯ ===== */
@@ -21,7 +45,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgba(44, 44, 44, 0.92);
+    background: rgba(44,44,44,0.92);
     padding: 12px 10px;
     gap: 8px;
     border-bottom: 3px solid #ffa500;
@@ -32,7 +56,7 @@ body {
 }
 
 .tab-btn {
-    background: rgba(68, 68, 68, 0.8);
+    background: rgba(68,68,68,0.8);
     border: none;
     color: #ccc;
     padding: 10px 20px;
@@ -41,25 +65,11 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    letter-spacing: 0.5px;
     backdrop-filter: blur(4px);
 }
-
-.tab-btn i {
-    margin-right: 6px;
-}
-
-.tab-btn:hover {
-    background: #555;
-    color: #fff;
-    transform: scale(1.04);
-}
-
-.tab-btn.active {
-    background: #ffa500;
-    color: #1a1a1a;
-    box-shadow: 0 0 15px #ffa50088;
-}
+.tab-btn i { margin-right: 6px; }
+.tab-btn:hover { background: #555; color: #fff; transform: scale(1.04); }
+.tab-btn.active { background: #ffa500; color: #1a1a1a; box-shadow: 0 0 15px #ffa50088; }
 
 /* ===== КОНТЕЙНЕР ===== */
 .tab-container {
@@ -74,309 +84,237 @@ body {
 
 .tab-content {
     display: none;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.6s ease;
 }
-
-.tab-content.active {
-    display: block;
-}
+.tab-content.active { display: block; }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== ВНУТРЕННИЙ КОНТЕЙНЕР ВКЛАДКИ ===== */
+/* ===== ВНУТРЕННИЙ БЛОК ===== */
 .tab-inner {
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
     border-radius: 30px;
     padding: 30px 25px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 h1 {
     font-size: 2.6rem;
     margin-bottom: 15px;
-    font-weight: 700;
-    letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
-
-h1 i {
-    margin-right: 12px;
-}
+h1 i { margin-right: 12px; }
 
 .description {
     font-size: 1.2rem;
     line-height: 1.7;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     background: rgba(0,0,0,0.4);
     padding: 20px 25px;
     border-radius: 20px;
     border-left: 5px solid currentColor;
 }
+.description i { margin-right: 8px; }
 
-.description i {
-    color: inherit;
-    opacity: 0.9;
+/* ===== КАРУСЕЛЬ ===== */
+.carousel-container {
+    position: relative;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+    user-select: none;
+    touch-action: pan-y;
 }
 
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.gallery img {
+.carousel-slide {
+    flex: 0 0 100%;
+    position: relative;
+}
+
+.carousel-slide img {
     width: 100%;
-    height: 200px;
+    height: 400px;
     object-fit: cover;
-    border-radius: 18px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 2px solid rgba(255,255,255,0.1);
+    display: block;
 }
 
-.gallery img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+.carousel-slide .caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: #fff;
+    padding: 20px 20px 15px;
+    font-size: 1.1rem;
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+    pointer-events: none;
 }
 
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    transition: background 0.3s;
+    z-index: 2;
+}
+.carousel-btn:hover { background: rgba(0,0,0,0.8); }
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 0 5px;
+}
+.carousel-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+.carousel-dots span.active {
+    background: #ffa500;
+    transform: scale(1.2);
+}
+
+/* ===== АУДИО ПЛЕЕР ===== */
 .audio-wrapper {
     text-align: center;
     padding: 20px;
     background: rgba(0,0,0,0.3);
     border-radius: 30px;
 }
+.audio-wrapper p { font-size: 1.1rem; margin-bottom: 12px; }
+.audio-wrapper p i { margin-right: 8px; }
 
-.audio-wrapper p {
-    font-size: 1.1rem;
-    margin-bottom: 12px;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-
-.audio-wrapper p i {
-    margin-right: 8px;
-}
-
-audio {
-    width: 100%;
+.player {
     max-width: 500px;
-    border-radius: 30px;
-    background: #222;
-    outline: none;
+    margin: 0 auto;
+}
+.player audio { display: none; }
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.5);
+    padding: 10px 18px;
+    border-radius: 40px;
+    backdrop-filter: blur(4px);
 }
 
-/* ============================================ */
-/* ===== УНИКАЛЬНЫЕ ТЕМЫ ДЛЯ КАРТОЧЕК ===== */
-/* ============================================ */
-
-/* ---- ЯРИК: металл + ржавчина ---- */
-[data-theme="yarik"] .tab-inner {
-    background: 
-        repeating-linear-gradient(45deg, rgba(224,163,67,0.05) 0px, rgba(224,163,67,0.05) 2px, transparent 2px, transparent 4px),
-        linear-gradient(145deg, #3a2a1a, #1f1a14);
-    border-color: #b87333;
-}
-[data-theme="yarik"] h1 {
-    color: #e0a343;
-    font-family: 'Oswald', sans-serif;
-}
-[data-theme="yarik"] .description {
-    border-left-color: #e0a343;
-    color: #ddd;
-}
-[data-theme="yarik"] .gallery img {
-    border-color: #b87333;
-}
-
-/* ---- ОЛЯ: нежные акварельные разводы ---- */
-[data-theme="olya"] .tab-inner {
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(247,161,196,0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(247,161,196,0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #3d2b3a, #251f24);
-    border-color: #f7a1c4;
-}
-[data-theme="olya"] h1 {
-    color: #f7a1c4;
-    font-family: 'Dancing Script', cursive;
-}
-[data-theme="olya"] .description {
-    border-left-color: #f7a1c4;
-    color: #f0d6e0;
-}
-[data-theme="olya"] .gallery img {
-    border-color: #f7a1c4;
-}
-
-/* ---- АНДРЕЙ (врач): рентген-снимки ---- */
-[data-theme="andrey"] .tab-inner {
-    background: 
-        repeating-linear-gradient(0deg, rgba(46,204,113,0.05) 0px, rgba(46,204,113,0.05) 2px, transparent 2px, transparent 6px),
-        repeating-linear-gradient(90deg, rgba(46,204,113,0.05) 0px, rgba(46,204,113,0.05) 2px, transparent 2px, transparent 6px),
-        linear-gradient(145deg, #1e3a2f, #14281f);
-    border-color: #2ecc71;
-}
-[data-theme="andrey"] h1 {
-    color: #2ecc71;
-    font-family: 'Roboto Mono', monospace;
-}
-[data-theme="andrey"] .description {
-    border-left-color: #2ecc71;
-    color: #c8e6d0;
-}
-[data-theme="andrey"] .gallery img {
-    border-color: #2ecc71;
-}
-
-/* ---- АНДРЕЙ МЛ.: пиксельная сетка + космос ---- */
-[data-theme="andrey_m"] .tab-inner {
-    background: 
-        repeating-linear-gradient(0deg, rgba(255,119,0,0.08) 0px, rgba(255,119,0,0.08) 2px, transparent 2px, transparent 10px),
-        repeating-linear-gradient(90deg, rgba(255,119,0,0.08) 0px, rgba(255,119,0,0.08) 2px, transparent 2px, transparent 10px),
-        linear-gradient(145deg, #2a1e0e, #1c140a);
-    border-color: #ff7700;
-}
-[data-theme="andrey_m"] h1 {
-    color: #ff7700;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 1.8rem;
-    text-shadow: 0 0 20px #ff7700aa;
-}
-[data-theme="andrey_m"] .description {
-    border-left-color: #ff7700;
-    color: #f5d6a8;
-}
-[data-theme="andrey_m"] .gallery img {
-    border-color: #ff7700;
-}
-
-/* ---- ВАНЮША: кирпичная стена + граффити ---- */
-[data-theme="vanusha"] .tab-inner {
-    background: 
-        repeating-linear-gradient(90deg, rgba(255,59,138,0.05) 0px, rgba(255,59,138,0.05) 4px, transparent 4px, transparent 8px),
-        repeating-linear-gradient(0deg, rgba(255,59,138,0.03) 0px, rgba(255,59,138,0.03) 3px, transparent 3px, transparent 6px),
-        linear-gradient(145deg, #2b2b2b, #1a1a1a);
-    border-color: #ff3b8a;
-}
-[data-theme="vanusha"] h1 {
-    color: #ff3b8a;
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 3px;
-    text-shadow: 0 0 30px #ff3b8a88;
-}
-[data-theme="vanusha"] .description {
-    border-left-color: #ff3b8a;
-    color: #f0d0d0;
-}
-[data-theme="vanusha"] .gallery img {
-    border-color: #ff3b8a;
-}
-
-/* ---- НИКИТА: волны сигнала ---- */
-[data-theme="nikita"] .tab-inner {
-    background: 
-        radial-gradient(circle at 30% 40%, rgba(111,207,151,0.08) 0%, transparent 60%),
-        radial-gradient(circle at 70% 80%, rgba(111,207,151,0.05) 0%, transparent 50%),
-        linear-gradient(145deg, #0a2a1a, #051510);
-    border-color: #6fcf97;
-}
-[data-theme="nikita"] h1 {
-    color: #6fcf97;
-    font-family: 'Share Tech Mono', monospace;
-    text-shadow: 0 0 20px #6fcf9766;
-}
-[data-theme="nikita"] .description {
-    border-left-color: #6fcf97;
-    color: #b8e6c8;
-}
-[data-theme="nikita"] .gallery img {
-    border-color: #6fcf97;
-}
-
-/* ---- МИХАИЛ: каменная кладка + золото ---- */
-[data-theme="mikhail"] .tab-inner {
-    background: 
-        repeating-linear-gradient(45deg, rgba(212,160,23,0.04) 0px, rgba(212,160,23,0.04) 4px, transparent 4px, transparent 8px),
-        linear-gradient(145deg, #2a1f14, #1a120b);
-    border-color: #d4a017;
-}
-[data-theme="mikhail"] h1 {
-    color: #d4a017;
-    font-family: 'Uncial Antiqua', serif;
-    text-shadow: 0 0 25px #d4a01777;
-}
-[data-theme="mikhail"] .description {
-    border-left-color: #d4a017;
-    color: #e6d5b8;
-}
-[data-theme="mikhail"] .gallery img {
-    border-color: #d4a017;
-}
-
-/* ============================================ */
-/* ===== ФОНЫ ДЛЯ BODY (ЦВЕТА) ===== */
-/* ============================================ */
-
-body.theme-yarik {
-    background: #2d2418;
-}
-body.theme-olya {
-    background: #2d1f2a;
-}
-body.theme-andrey {
-    background: #1a2a20;
-}
-body.theme-andrey_m {
-    background: #261a0a;
-}
-body.theme-vanusha {
-    background: #221f1f;
-}
-body.theme-nikita {
-    background: #0d1f14;
-}
-body.theme-mikhail {
-    background: #1f160e;
-}
-
-/* ===== СТИЛИ ДЛЯ ФОНОВЫХ ИКОНОК (создаются скриптом) ===== */
-.bg-icon {
+.controls button {
+    background: none;
+    border: none;
     color: #fff;
-    transition: all 0.2s ease;
-    will-change: transform;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 0 4px;
 }
-/* Небольшой эффект при наведении на карточку, чтобы иконки немного оживали */
-.tab-content.active ~ .bg-icon {
-    /* можно добавить анимацию, если нужно */
+.controls button:hover { color: #ffa500; }
+
+.controls .current-time,
+.controls .duration {
+    font-size: 0.9rem;
+    min-width: 40px;
+    font-variant-numeric: tabular-nums;
 }
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.progress-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #ffa500;
+    border-radius: 10px;
+    transition: width 0.1s linear;
+}
+
+/* ===== ТАЙМЕР ===== */
+#birthday-timer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 1px solid #ffa500;
+    z-index: 200;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: none;
+}
+.timer-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-size: 1rem;
+}
+.timer-content i { color: #ffa500; font-size: 1.4rem; }
+
+/* ===== ТЕМЫ ДЛЯ КАРТОЧЕК (цвета) ===== */
+[data-theme="yarik"] h1 { color: #e0a343; font-family: 'Oswald', sans-serif; }
+[data-theme="yarik"] .description { border-left-color: #e0a343; }
+[data-theme="yarik"] .tab-inner { border-color: #b87333; }
+
+[data-theme="olya"] h1 { color: #f7a1c4; font-family: 'Dancing Script', cursive; }
+[data-theme="olya"] .description { border-left-color: #f7a1c4; }
+
+[data-theme="andrey"] h1 { color: #2ecc71; font-family: 'Roboto Mono', monospace; }
+[data-theme="andrey"] .description { border-left-color: #2ecc71; }
+
+[data-theme="andrey_m"] h1 { color: #ff7700; font-family: 'Press Start 2P', cursive; font-size: 1.8rem; text-shadow: 0 0 20px #ff7700aa; }
+[data-theme="andrey_m"] .description { border-left-color: #ff7700; }
+
+[data-theme="vanusha"] h1 { color: #ff3b8a; font-family: 'Bebas Neue', cursive; letter-spacing: 3px; text-shadow: 0 0 30px #ff3b8a88; }
+[data-theme="vanusha"] .description { border-left-color: #ff3b8a; }
+
+[data-theme="nikita"] h1 { color: #6fcf97; font-family: 'Share Tech Mono', monospace; text-shadow: 0 0 20px #6fcf9766; }
+[data-theme="nikita"] .description { border-left-color: #6fcf97; }
+
+[data-theme="mikhail"] h1 { color: #d4a017; font-family: 'Uncial Antiqua', serif; text-shadow: 0 0 25px #d4a01777; }
+[data-theme="mikhail"] .description { border-left-color: #d4a017; }
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 768px) {
-    .tab-btn {
-        font-size: 0.8rem;
-        padding: 8px 12px;
-    }
-    h1 {
-        font-size: 1.8rem;
-    }
-    .description {
-        font-size: 1rem;
-        padding: 15px;
-    }
-    .gallery {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-    .gallery img {
-        height: 140px;
-    }
-    .tab-inner {
-        padding: 20px 15px;
-    }
+    .tab-btn { font-size: 0.8rem; padding: 8px 12px; }
+    h1 { font-size: 1.8rem; }
+    .description { font-size: 1rem; padding: 15px; }
+    .carousel-slide img { height: 250px; }
+    .carousel-slide .caption { font-size: 0.9rem; padding: 12px; }
+    .controls { flex-wrap: wrap; justify-content: center; }
+    #birthday-timer { bottom: 10px; right: 10px; padding: 8px 14px; font-size: 0.8rem; }
 }

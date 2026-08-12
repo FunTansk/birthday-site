@@ -12,6 +12,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: background 0.6s ease;
 }
 
 /* ===== НАВИГАЦИЯ ===== */
@@ -39,6 +40,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 0.5px;
+}
+
+.tab-btn i {
+    margin-right: 6px;
 }
 
 .tab-btn:hover {
@@ -84,6 +89,7 @@ body {
     padding: 30px 25px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
 }
 
 h1 {
@@ -94,14 +100,23 @@ h1 {
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
+h1 i {
+    margin-right: 12px;
+}
+
 .description {
     font-size: 1.2rem;
     line-height: 1.7;
     margin-bottom: 30px;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.4);
     padding: 20px 25px;
     border-radius: 20px;
     border-left: 5px solid currentColor;
+}
+
+.description i {
+    color: inherit;
+    opacity: 0.9;
 }
 
 .gallery {
@@ -140,6 +155,10 @@ h1 {
     letter-spacing: 1px;
 }
 
+.audio-wrapper p i {
+    margin-right: 8px;
+}
+
 audio {
     width: 100%;
     max-width: 500px;
@@ -148,12 +167,15 @@ audio {
     outline: none;
 }
 
-/* ===== УНИКАЛЬНЫЕ ТЕМЫ ДЛЯ КАЖДОЙ ВКЛАДКИ ===== */
-/* задаются через data-theme у <section> */
+/* ============================================ */
+/* ===== УНИКАЛЬНЫЕ ТЕМЫ ДЛЯ КАРТОЧЕК (tab-inner) ===== */
+/* ============================================ */
 
-/* ЯРИК — металл, ржавый оранж */
+/* ---- ЯРИК: металл + ржавчина ---- */
 [data-theme="yarik"] .tab-inner {
-    background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+    background: 
+        repeating-linear-gradient(45deg, #2a2a2a 0px, #2a2a2a 2px, #333 2px, #333 4px),
+        linear-gradient(145deg, #3a2a1a, #1f1a14);
     border-color: #b87333;
 }
 [data-theme="yarik"] h1 {
@@ -168,9 +190,12 @@ audio {
     border-color: #b87333;
 }
 
-/* ОЛЯ — пастельный розовый + чёрный */
+/* ---- ОЛЯ: нежные акварельные разводы ---- */
 [data-theme="olya"] .tab-inner {
-    background: linear-gradient(135deg, #3d2b3a, #251f24);
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(247,161,196,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(247,161,196,0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #3d2b3a, #251f24);
     border-color: #f7a1c4;
 }
 [data-theme="olya"] h1 {
@@ -185,9 +210,12 @@ audio {
     border-color: #f7a1c4;
 }
 
-/* АНДРЕЙ (врач) — зелёный + белый */
+/* ---- АНДРЕЙ (врач): рентген-снимки (светлые линии) ---- */
 [data-theme="andrey"] .tab-inner {
-    background: linear-gradient(145deg, #1e3a2f, #14281f);
+    background: 
+        repeating-linear-gradient(0deg, rgba(46,204,113,0.05) 0px, rgba(46,204,113,0.05) 2px, transparent 2px, transparent 6px),
+        repeating-linear-gradient(90deg, rgba(46,204,113,0.05) 0px, rgba(46,204,113,0.05) 2px, transparent 2px, transparent 6px),
+        linear-gradient(145deg, #1e3a2f, #14281f);
     border-color: #2ecc71;
 }
 [data-theme="andrey"] h1 {
@@ -202,9 +230,12 @@ audio {
     border-color: #2ecc71;
 }
 
-/* АНДРЕЙ МЛ. — оранжевый, неон, пиксели */
+/* ---- АНДРЕЙ МЛ.: пиксельная сетка + космос ---- */
 [data-theme="andrey_m"] .tab-inner {
-    background: linear-gradient(145deg, #2a1e0e, #1c140a);
+    background: 
+        repeating-linear-gradient(0deg, rgba(255,119,0,0.08) 0px, rgba(255,119,0,0.08) 2px, transparent 2px, transparent 10px),
+        repeating-linear-gradient(90deg, rgba(255,119,0,0.08) 0px, rgba(255,119,0,0.08) 2px, transparent 2px, transparent 10px),
+        linear-gradient(145deg, #2a1e0e, #1c140a);
     border-color: #ff7700;
 }
 [data-theme="andrey_m"] h1 {
@@ -221,9 +252,12 @@ audio {
     border-color: #ff7700;
 }
 
-/* ВАНЮША — серый, кирпич, розовый неон */
+/* ---- ВАНЮША: кирпичная стена + граффити (розовые брызги) ---- */
 [data-theme="vanusha"] .tab-inner {
-    background: linear-gradient(145deg, #2b2b2b, #1a1a1a);
+    background: 
+        repeating-linear-gradient(90deg, rgba(255,59,138,0.05) 0px, rgba(255,59,138,0.05) 4px, transparent 4px, transparent 8px),
+        repeating-linear-gradient(0deg, rgba(255,59,138,0.03) 0px, rgba(255,59,138,0.03) 3px, transparent 3px, transparent 6px),
+        linear-gradient(145deg, #2b2b2b, #1a1a1a);
     border-color: #ff3b8a;
 }
 [data-theme="vanusha"] h1 {
@@ -240,9 +274,12 @@ audio {
     border-color: #ff3b8a;
 }
 
-/* НИКИТА — теле2 зелёный, инопланетный */
+/* ---- НИКИТА: волны сигнала и антенны (зелёный неон) ---- */
 [data-theme="nikita"] .tab-inner {
-    background: linear-gradient(145deg, #0a2a1a, #051510);
+    background: 
+        radial-gradient(circle at 30% 40%, rgba(111,207,151,0.08) 0%, transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(111,207,151,0.05) 0%, transparent 50%),
+        linear-gradient(145deg, #0a2a1a, #051510);
     border-color: #6fcf97;
 }
 [data-theme="nikita"] h1 {
@@ -258,9 +295,11 @@ audio {
     border-color: #6fcf97;
 }
 
-/* МИХАИЛ — дварф, камень, золото */
+/* ---- МИХАИЛ: каменная кладка + руда (золотые прожилки) ---- */
 [data-theme="mikhail"] .tab-inner {
-    background: linear-gradient(145deg, #2a1f14, #1a120b);
+    background: 
+        repeating-linear-gradient(45deg, rgba(212,160,23,0.03) 0px, rgba(212,160,23,0.03) 4px, transparent 4px, transparent 8px),
+        linear-gradient(145deg, #2a1f14, #1a120b);
     border-color: #d4a017;
 }
 [data-theme="mikhail"] h1 {
@@ -274,6 +313,39 @@ audio {
 }
 [data-theme="mikhail"] .gallery img {
     border-color: #d4a017;
+}
+
+/* ============================================ */
+/* ===== ФОНЫ ДЛЯ ВСЕЙ СТРАНИЦЫ (BODY) ===== */
+/* ============================================ */
+
+body.theme-yarik {
+    background: #2d2418;
+    background-image: repeating-linear-gradient(45deg, rgba(224,163,67,0.03) 0px, rgba(224,163,67,0.03) 4px, transparent 4px, transparent 8px);
+}
+body.theme-olya {
+    background: #2d1f2a;
+    background-image: radial-gradient(circle at 20% 30%, rgba(247,161,196,0.08) 0%, transparent 60%);
+}
+body.theme-andrey {
+    background: #1a2a20;
+    background-image: repeating-linear-gradient(0deg, rgba(46,204,113,0.04) 0px, rgba(46,204,113,0.04) 2px, transparent 2px, transparent 6px);
+}
+body.theme-andrey_m {
+    background: #261a0a;
+    background-image: repeating-linear-gradient(0deg, rgba(255,119,0,0.06) 0px, rgba(255,119,0,0.06) 2px, transparent 2px, transparent 10px);
+}
+body.theme-vanusha {
+    background: #221f1f;
+    background-image: repeating-linear-gradient(90deg, rgba(255,59,138,0.04) 0px, rgba(255,59,138,0.04) 4px, transparent 4px, transparent 8px);
+}
+body.theme-nikita {
+    background: #0d1f14;
+    background-image: radial-gradient(circle at 30% 40%, rgba(111,207,151,0.06) 0%, transparent 60%);
+}
+body.theme-mikhail {
+    background: #1f160e;
+    background-image: repeating-linear-gradient(45deg, rgba(212,160,23,0.04) 0px, rgba(212,160,23,0.04) 4px, transparent 4px, transparent 8px);
 }
 
 /* ===== АДАПТИВ ===== */

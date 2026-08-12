@@ -4,49 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>С днём рождения, Ярик!</title>
-    <!-- Подключаем стили -->
     <link rel="stylesheet" href="style.css">
-    <!-- Подключаем шрифты (можно заменить на свои) -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Подключаем шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    <!-- ПОДКЛЮЧАЕМ FONT AWESOME ДЛЯ ИКОНОК -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <!-- ========== НАВИГАЦИЯ ========== -->
     <nav class="tab-nav">
-        <button class="tab-btn active" data-tab="yarik">Ярик</button>
-        <button class="tab-btn" data-tab="olya">Оля</button>
-        <button class="tab-btn" data-tab="andrey">Андрей</button>
-        <button class="tab-btn" data-tab="andrey_m">Андрей Мл.</button>
-        <button class="tab-btn" data-tab="vanusha">Ванюша</button>
-        <button class="tab-btn" data-tab="nikita">Никита</button>
-        <button class="tab-btn" data-tab="mikhail">Михаил</button>
+        <button class="tab-btn active" data-tab="yarik"><i class="fas fa-car"></i> Ярик</button>
+        <button class="tab-btn" data-tab="olya"><i class="fas fa-heart"></i> Оля</button>
+        <button class="tab-btn" data-tab="andrey"><i class="fas fa-stethoscope"></i> Андрей</button>
+        <button class="tab-btn" data-tab="andrey_m"><i class="fas fa-rocket"></i> Андрей Мл.</button>
+        <button class="tab-btn" data-tab="vanusha"><i class="fas fa-crown"></i> Ванюша</button>
+        <button class="tab-btn" data-tab="nikita"><i class="fas fa-wifi"></i> Никита</button>
+        <button class="tab-btn" data-tab="mikhail"><i class="fas fa-hammer"></i> Михаил</button>
     </nav>
 
-    <!-- ========== КОНТЕЙНЕР ВКЛАДОК ========== -->
     <main class="tab-container">
 
         <!-- ВКЛАДКА 1: ЯРИК -->
         <section id="yarik" class="tab-content active" data-theme="yarik">
             <div class="tab-inner">
-                <h1>Ярик — повелитель «Чатырки»</h1>
+                <h1><i class="fas fa-car" style="color: #e0a343;"></i> Ярик — повелитель «Чатырки»</h1>
                 <p class="description">
+                    <i class="fas fa-wrench" style="margin-right: 8px;"></i>
                     Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. 
                     В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. 
                     Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, 
                     завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
                 </p>
                 <div class="gallery">
-                    <!-- Замени src на свои фото (5–10 штук) -->
                     <img src="images/yarik/1.jpg" alt="Ярик">
                     <img src="images/yarik/2.jpg" alt="Ярик">
                     <img src="images/yarik/3.jpg" alt="Ярик">
-                    <!-- добавь ещё, если есть -->
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/yarik.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио.
                     </audio>
                 </div>
             </div>
@@ -55,8 +52,9 @@
         <!-- ВКЛАДКА 2: ОЛЯ -->
         <section id="olya" class="tab-content" data-theme="olya">
             <div class="tab-inner">
-                <h1>Оля — нежность со сковородой</h1>
+                <h1><i class="fas fa-heart" style="color: #f7a1c4;"></i> Оля — нежность со сковородой</h1>
                 <p class="description">
+                    <i class="fas fa-utensils" style="margin-right: 8px;"></i>
                     Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. 
                     Оля — это греющий компромисс между плюшевым мишкой и терминатором. 
                     Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, 
@@ -68,7 +66,7 @@
                     <img src="images/olya/3.jpg" alt="Оля">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/olya.mp3" type="audio/mpeg">
                     </audio>
@@ -79,8 +77,9 @@
         <!-- ВКЛАДКА 3: АНДРЕЙ (врач) -->
         <section id="andrey" class="tab-content" data-theme="andrey">
             <div class="tab-inner">
-                <h1>Андрей — вечный начинатель</h1>
+                <h1><i class="fas fa-stethoscope" style="color: #2ecc71;"></i> Андрей — вечный начинатель</h1>
                 <p class="description">
+                    <i class="fas fa-pills" style="margin-right: 8px;"></i>
                     Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. 
                     Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, 
                     а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно 
@@ -92,7 +91,7 @@
                     <img src="images/andrey/3.jpg" alt="Андрей">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/andrey.mp3" type="audio/mpeg">
                     </audio>
@@ -103,8 +102,9 @@
         <!-- ВКЛАДКА 4: АНДРЕЙ МЛАДШИЙ -->
         <section id="andrey_m" class="tab-content" data-theme="andrey_m">
             <div class="tab-inner">
-                <h1>Андрей Младший — фанат ROCKET и CS2</h1>
+                <h1><i class="fas fa-rocket" style="color: #ff7700;"></i> Андрей Младший — фанат ROCKET и CS2</h1>
                 <p class="description">
+                    <i class="fas fa-gamepad" style="margin-right: 8px;"></i>
                     Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, 
                     кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные 
                     раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: 
@@ -117,7 +117,7 @@
                     <img src="images/andrey_m/3.jpg" alt="Андрей Младший">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/andrey_m.mp3" type="audio/mpeg">
                     </audio>
@@ -128,8 +128,9 @@
         <!-- ВКЛАДКА 5: ВАНЮША -->
         <section id="vanusha" class="tab-content" data-theme="vanusha">
             <div class="tab-inner">
-                <h1>Ванюша — the best фембой</h1>
+                <h1><i class="fas fa-crown" style="color: #ff3b8a;"></i> Ванюша — the best фембой</h1>
                 <p class="description">
+                    <i class="fas fa-smile-wink" style="margin-right: 8px;"></i>
                     Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. 
                     Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. 
                     Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему 
@@ -142,7 +143,7 @@
                     <img src="images/vanusha/3.jpg" alt="Ванюша">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/vanusha.mp3" type="audio/mpeg">
                     </audio>
@@ -153,8 +154,9 @@
         <!-- ВКЛАДКА 6: НИКИТА -->
         <section id="nikita" class="tab-content" data-theme="nikita">
             <div class="tab-inner">
-                <h1>Никита — теле2-коммуникатор, возможно, пришелец</h1>
+                <h1><i class="fas fa-satellite" style="color: #6fcf97;"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
                 <p class="description">
+                    <i class="fas fa-wifi" style="margin-right: 8px;"></i>
                     Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. 
                     Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер 
                     с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. 
@@ -167,7 +169,7 @@
                     <img src="images/nikita/3.jpg" alt="Никита">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/nikita.mp3" type="audio/mpeg">
                     </audio>
@@ -178,8 +180,9 @@
         <!-- ВКЛАДКА 7: МИХАИЛ (дварф) -->
         <section id="mikhail" class="tab-content" data-theme="mikhail">
             <div class="tab-inner">
-                <h1>Михаил — подгорный властелин</h1>
+                <h1><i class="fas fa-hammer" style="color: #d4a017;"></i> Михаил — подгорный властелин</h1>
                 <p class="description">
+                    <i class="fas fa-beer" style="margin-right: 8px;"></i>
                     Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, 
                     если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе 
                     с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, 
@@ -192,7 +195,7 @@
                     <img src="images/mikhail/3.jpg" alt="Михаил">
                 </div>
                 <div class="audio-wrapper">
-                    <p>🎧 Голосовое поздравление</p>
+                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
                     <audio controls>
                         <source src="audio/mikhail.mp3" type="audio/mpeg">
                     </audio>

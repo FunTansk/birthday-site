@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С днём рождения, Ярик!</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем шрифты (можно заменить на свои) -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ========== НАВИГАЦИЯ ========== -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="yarik">Ярик</button>
+        <button class="tab-btn" data-tab="olya">Оля</button>
+        <button class="tab-btn" data-tab="andrey">Андрей</button>
+        <button class="tab-btn" data-tab="andrey_m">Андрей Мл.</button>
+        <button class="tab-btn" data-tab="vanusha">Ванюша</button>
+        <button class="tab-btn" data-tab="nikita">Никита</button>
+        <button class="tab-btn" data-tab="mikhail">Михаил</button>
+    </nav>
+
+    <!-- ========== КОНТЕЙНЕР ВКЛАДОК ========== -->
+    <main class="tab-container">
+
+        <!-- ВКЛАДКА 1: ЯРИК -->
+        <section id="yarik" class="tab-content active" data-theme="yarik">
+            <div class="tab-inner">
+                <h1>Ярик — повелитель «Чатырки»</h1>
+                <p class="description">
+                    Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. 
+                    В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. 
+                    Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, 
+                    завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
+                </p>
+                <div class="gallery">
+                    <!-- Замени src на свои фото (5–10 штук) -->
+                    <img src="images/yarik/1.jpg" alt="Ярик">
+                    <img src="images/yarik/2.jpg" alt="Ярик">
+                    <img src="images/yarik/3.jpg" alt="Ярик">
+                    <!-- добавь ещё, если есть -->
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/yarik.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 2: ОЛЯ -->
+        <section id="olya" class="tab-content" data-theme="olya">
+            <div class="tab-inner">
+                <h1>Оля — нежность со сковородой</h1>
+                <p class="description">
+                    Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. 
+                    Оля — это греющий компромисс между плюшевым мишкой и терминатором. 
+                    Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, 
+                    кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.
+                </p>
+                <div class="gallery">
+                    <img src="images/olya/1.jpg" alt="Оля">
+                    <img src="images/olya/2.jpg" alt="Оля">
+                    <img src="images/olya/3.jpg" alt="Оля">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/olya.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 3: АНДРЕЙ (врач) -->
+        <section id="andrey" class="tab-content" data-theme="andrey">
+            <div class="tab-inner">
+                <h1>Андрей — вечный начинатель</h1>
+                <p class="description">
+                    Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. 
+                    Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, 
+                    а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно 
+                    думает — скорее всего, он просто вспоминает, куда положил ключи.
+                </p>
+                <div class="gallery">
+                    <img src="images/andrey/1.jpg" alt="Андрей">
+                    <img src="images/andrey/2.jpg" alt="Андрей">
+                    <img src="images/andrey/3.jpg" alt="Андрей">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/andrey.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 4: АНДРЕЙ МЛАДШИЙ -->
+        <section id="andrey_m" class="tab-content" data-theme="andrey_m">
+            <div class="tab-inner">
+                <h1>Андрей Младший — фанат ROCKET и CS2</h1>
+                <p class="description">
+                    Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, 
+                    кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные 
+                    раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: 
+                    «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он 
+                    давно перерос всех по харизме, просто скромничает.
+                </p>
+                <div class="gallery">
+                    <img src="images/andrey_m/1.jpg" alt="Андрей Младший">
+                    <img src="images/andrey_m/2.jpg" alt="Андрей Младший">
+                    <img src="images/andrey_m/3.jpg" alt="Андрей Младший">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/andrey_m.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 5: ВАНЮША -->
+        <section id="vanusha" class="tab-content" data-theme="vanusha">
+            <div class="tab-inner">
+                <h1>Ванюша — the best фембой</h1>
+                <p class="description">
+                    Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. 
+                    Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. 
+                    Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему 
+                    особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же 
+                    станцевать вальс. С ним любая драма превращается в комедию.
+                </p>
+                <div class="gallery">
+                    <img src="images/vanusha/1.jpg" alt="Ванюша">
+                    <img src="images/vanusha/2.jpg" alt="Ванюша">
+                    <img src="images/vanusha/3.jpg" alt="Ванюша">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/vanusha.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 6: НИКИТА -->
+        <section id="nikita" class="tab-content" data-theme="nikita">
+            <div class="tab-inner">
+                <h1>Никита — теле2-коммуникатор, возможно, пришелец</h1>
+                <p class="description">
+                    Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. 
+                    Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер 
+                    с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. 
+                    Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки 
+                    уже стали частью нашего фольклора.
+                </p>
+                <div class="gallery">
+                    <img src="images/nikita/1.jpg" alt="Никита">
+                    <img src="images/nikita/2.jpg" alt="Никита">
+                    <img src="images/nikita/3.jpg" alt="Никита">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/nikita.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА 7: МИХАИЛ (дварф) -->
+        <section id="mikhail" class="tab-content" data-theme="mikhail">
+            <div class="tab-inner">
+                <h1>Михаил — подгорный властелин</h1>
+                <p class="description">
+                    Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, 
+                    если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе 
+                    с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, 
+                    как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. 
+                    Наша скала, наш кузнец, наш звёздный подгорный властелин.
+                </p>
+                <div class="gallery">
+                    <img src="images/mikhail/1.jpg" alt="Михаил">
+                    <img src="images/mikhail/2.jpg" alt="Михаил">
+                    <img src="images/mikhail/3.jpg" alt="Михаил">
+                </div>
+                <div class="audio-wrapper">
+                    <p>🎧 Голосовое поздравление</p>
+                    <audio controls>
+                        <source src="audio/mikhail.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

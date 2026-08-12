@@ -1,0 +1,301 @@
+/* ===== БАЗОВЫЕ СТИЛИ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+.tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: #2c2c2c;
+    padding: 12px 10px;
+    gap: 8px;
+    border-bottom: 3px solid #ffa500;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.tab-btn {
+    background: #444;
+    border: none;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.tab-btn:hover {
+    background: #555;
+    color: #fff;
+    transform: scale(1.04);
+}
+
+.tab-btn.active {
+    background: #ffa500;
+    color: #1a1a1a;
+    box-shadow: 0 0 15px #ffa50088;
+}
+
+/* ===== КОНТЕЙНЕР ===== */
+.tab-container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    width: 100%;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ВНУТРЕННИЙ КОНТЕЙНЕР ВКЛАДКИ ===== */
+.tab-inner {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(4px);
+    border-radius: 30px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+h1 {
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px 25px;
+    border-radius: 20px;
+    border-left: 5px solid currentColor;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+}
+
+.audio-wrapper {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 30px;
+}
+
+.audio-wrapper p {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+audio {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 30px;
+    background: #222;
+    outline: none;
+}
+
+/* ===== УНИКАЛЬНЫЕ ТЕМЫ ДЛЯ КАЖДОЙ ВКЛАДКИ ===== */
+/* задаются через data-theme у <section> */
+
+/* ЯРИК — металл, ржавый оранж */
+[data-theme="yarik"] .tab-inner {
+    background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+    border-color: #b87333;
+}
+[data-theme="yarik"] h1 {
+    color: #e0a343;
+    font-family: 'Oswald', sans-serif;
+}
+[data-theme="yarik"] .description {
+    border-left-color: #e0a343;
+    color: #ddd;
+}
+[data-theme="yarik"] .gallery img {
+    border-color: #b87333;
+}
+
+/* ОЛЯ — пастельный розовый + чёрный */
+[data-theme="olya"] .tab-inner {
+    background: linear-gradient(135deg, #3d2b3a, #251f24);
+    border-color: #f7a1c4;
+}
+[data-theme="olya"] h1 {
+    color: #f7a1c4;
+    font-family: 'Dancing Script', cursive;
+}
+[data-theme="olya"] .description {
+    border-left-color: #f7a1c4;
+    color: #f0d6e0;
+}
+[data-theme="olya"] .gallery img {
+    border-color: #f7a1c4;
+}
+
+/* АНДРЕЙ (врач) — зелёный + белый */
+[data-theme="andrey"] .tab-inner {
+    background: linear-gradient(145deg, #1e3a2f, #14281f);
+    border-color: #2ecc71;
+}
+[data-theme="andrey"] h1 {
+    color: #2ecc71;
+    font-family: 'Roboto Mono', monospace;
+}
+[data-theme="andrey"] .description {
+    border-left-color: #2ecc71;
+    color: #c8e6d0;
+}
+[data-theme="andrey"] .gallery img {
+    border-color: #2ecc71;
+}
+
+/* АНДРЕЙ МЛ. — оранжевый, неон, пиксели */
+[data-theme="andrey_m"] .tab-inner {
+    background: linear-gradient(145deg, #2a1e0e, #1c140a);
+    border-color: #ff7700;
+}
+[data-theme="andrey_m"] h1 {
+    color: #ff7700;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.8rem;
+    text-shadow: 0 0 20px #ff7700aa;
+}
+[data-theme="andrey_m"] .description {
+    border-left-color: #ff7700;
+    color: #f5d6a8;
+}
+[data-theme="andrey_m"] .gallery img {
+    border-color: #ff7700;
+}
+
+/* ВАНЮША — серый, кирпич, розовый неон */
+[data-theme="vanusha"] .tab-inner {
+    background: linear-gradient(145deg, #2b2b2b, #1a1a1a);
+    border-color: #ff3b8a;
+}
+[data-theme="vanusha"] h1 {
+    color: #ff3b8a;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 3px;
+    text-shadow: 0 0 30px #ff3b8a88;
+}
+[data-theme="vanusha"] .description {
+    border-left-color: #ff3b8a;
+    color: #f0d0d0;
+}
+[data-theme="vanusha"] .gallery img {
+    border-color: #ff3b8a;
+}
+
+/* НИКИТА — теле2 зелёный, инопланетный */
+[data-theme="nikita"] .tab-inner {
+    background: linear-gradient(145deg, #0a2a1a, #051510);
+    border-color: #6fcf97;
+}
+[data-theme="nikita"] h1 {
+    color: #6fcf97;
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: 0 0 20px #6fcf9766;
+}
+[data-theme="nikita"] .description {
+    border-left-color: #6fcf97;
+    color: #b8e6c8;
+}
+[data-theme="nikita"] .gallery img {
+    border-color: #6fcf97;
+}
+
+/* МИХАИЛ — дварф, камень, золото */
+[data-theme="mikhail"] .tab-inner {
+    background: linear-gradient(145deg, #2a1f14, #1a120b);
+    border-color: #d4a017;
+}
+[data-theme="mikhail"] h1 {
+    color: #d4a017;
+    font-family: 'Uncial Antiqua', serif;
+    text-shadow: 0 0 25px #d4a01777;
+}
+[data-theme="mikhail"] .description {
+    border-left-color: #d4a017;
+    color: #e6d5b8;
+}
+[data-theme="mikhail"] .gallery img {
+    border-color: #d4a017;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 768px) {
+    .tab-btn {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+    .description {
+        font-size: 1rem;
+        padding: 15px;
+    }
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    .gallery img {
+        height: 140px;
+    }
+    .tab-inner {
+        padding: 20px 15px;
+    }
+}

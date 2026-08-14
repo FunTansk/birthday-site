@@ -52,8 +52,6 @@
         #timer .time-display { font-size:1.8rem; font-weight:700; color:#ffa500; font-variant-numeric:tabular-nums; margin-top:2px; }
         #timer.hidden { opacity:0; pointer-events:none; }
         #confetti-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; }
-
-        /* Модальное окно */
         .modal { display:none; position:fixed; z-index:200; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,.92); justify-content:center; align-items:center; animation:modalFadeIn .3s ease; }
         .modal.active { display:flex; }
         @keyframes modalFadeIn { from{opacity:0; transform:scale(.95);} to{opacity:1; transform:scale(1);} }
@@ -69,10 +67,6 @@
             .modal-nav.prev { left:10px; }
             .modal-nav.next { right:10px; }
             .modal-close { top:15px; right:15px; width:40px; height:40px; font-size:30px; }
-        }
-
-        /* Адаптив */
-        @media (max-width:768px) {
             header h1 { font-size:2rem; }
             .tab-btn { font-size:.8rem; padding:6px 16px; }
             .greeting h1 { font-size:1.8rem; }
@@ -89,8 +83,6 @@
             .carousel-slide { height:220px; }
             .carousel-slide .caption { font-size:.8rem; padding:4px 12px; margin:0 10px; bottom:10px; }
         }
-
-        /* Тематические цвета */
         .theme-yarik { --accent:#e0a343; }
         .theme-olya { --accent:#f7a1c4; }
         .theme-andrey { --accent:#2ecc71; }
@@ -130,7 +122,7 @@
 
     <main>
 
-        <!-- ===== Ярик ===== -->
+        <!-- ===== Ярик (день рождения) ===== -->
         <div class="tab-content active" id="tab-yarik">
             <div class="greeting">
                 <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
@@ -173,7 +165,7 @@
             </div>
         </div>
 
-        <!-- ===== Оля ===== -->
+        <!-- ===== Оля (без поздравлений) ===== -->
         <div class="tab-content" id="tab-olya">
             <div class="greeting">
                 <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
@@ -201,7 +193,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей ===== -->
+        <!-- ===== Андрей (без поздравлений) ===== -->
         <div class="tab-content" id="tab-andrey">
             <div class="greeting">
                 <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
@@ -216,7 +208,7 @@
                     <div class="carousel-slide"><img src="images/andrey/5.jpg" alt="Фото 5"><p class="caption">«Любит учиться и пробовать новое»</p></div>
                     <div class="carousel-slide"><img src="images/andrey/6.jpg" alt="Фото 6"><p class="caption">«С друзьями — всегда весело»</p></div>
                     <div class="carousel-slide"><img src="images/andrey/7.jpg" alt="Фото 7"><p class="caption">«Надёжный товарищ»</p></div>
-                    <div class="carousel-slide"><img src="images/andrey/8.jpg" alt="Фото 8"><p class="caption">«С днём рождения, будущий доктор!»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/8.jpg" alt="Фото 8"><p class="caption">«Наш будущий доктор!»</p></div>
                 </div>
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -230,7 +222,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей младший ===== -->
+        <!-- ===== Андрей младший (без поздравлений) ===== -->
         <div class="tab-content" id="tab-andrey_m">
             <div class="greeting">
                 <h1 style="color:#ff7700;"><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
@@ -250,7 +242,7 @@
                     <div class="carousel-slide"><img src="images/andrey_m/10.jpg" alt="Фото 10"><p class="caption">«Всегда в игре»</p></div>
                     <div class="carousel-slide"><img src="images/andrey_m/11.jpg" alt="Фото 11"><p class="caption">«С юмором — на ты»</p></div>
                     <div class="carousel-slide"><img src="images/andrey_m/12.jpg" alt="Фото 12"><p class="caption">«Взрывной характер»</p></div>
-                    <div class="carousel-slide"><img src="images/andrey_m/13.jpg" alt="Фото 13"><p class="caption">«С днём рождения, наш ракетчик!»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/13.jpg" alt="Фото 13"><p class="caption">«Наш ракетчик!»</p></div>
                 </div>
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -264,7 +256,7 @@
             </div>
         </div>
 
-        <!-- ===== Ванюша ===== -->
+        <!-- ===== Ванюша (без поздравлений) ===== -->
         <div class="tab-content" id="tab-vanusha">
             <div class="greeting">
                 <h1 style="color:#ff3b8a;"><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
@@ -281,7 +273,7 @@
                     <div class="carousel-slide"><img src="images/vanusha/7.jpg" alt="Фото 7"><p class="caption">«Артист в душе»</p></div>
                     <div class="carousel-slide"><img src="images/vanusha/8.jpg" alt="Фото 8"><p class="caption">«Всегда позитивный»</p></div>
                     <div class="carousel-slide"><img src="images/vanusha/9.jpg" alt="Фото 9"><p class="caption">«Его энергия заражает»</p></div>
-                    <div class="carousel-slide"><img src="images/vanusha/10.jpg" alt="Фото 10"><p class="caption">«С днём рождения, наш король!»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/10.jpg" alt="Фото 10"><p class="caption">«Наш король!»</p></div>
                 </div>
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -295,7 +287,7 @@
             </div>
         </div>
 
-        <!-- ===== Никита ===== -->
+        <!-- ===== Никита (без поздравлений) ===== -->
         <div class="tab-content" id="tab-nikita">
             <div class="greeting">
                 <h1 style="color:#6fcf97;"><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
@@ -318,7 +310,7 @@
             </div>
         </div>
 
-        <!-- ===== Михаил ===== -->
+        <!-- ===== Михаил (без поздравлений) ===== -->
         <div class="tab-content" id="tab-mikhail">
             <div class="greeting">
                 <h1 style="color:#d4a017;"><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
@@ -329,7 +321,7 @@
                     <div class="carousel-slide"><img src="images/mikhail/1.jpg" alt="Фото 1"><p class="caption">«Борода — это не просто аксессуар, это боевой щит»</p></div>
                     <div class="carousel-slide"><img src="images/mikhail/2.jpg" alt="Фото 2"><p class="caption">«Кружка пива — лучшее лекарство от всех болезней»</p></div>
                     <div class="carousel-slide"><img src="images/mikhail/3.jpg" alt="Фото 3"><p class="caption">«Мастер RYTP и подземелий»</p></div>
-                    <div class="carousel-slide"><img src="images/mikhail/4.jpg" alt="Фото 4"><p class="caption">«С днём рождения, наш властелин!»</p></div>
+                    <div class="carousel-slide"><img src="images/mikhail/4.jpg" alt="Фото 4"><p class="caption">«Наш властелин!»</p></div>
                 </div>
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -350,7 +342,7 @@
         <div class="time-display" id="timerDisplay">--:--:--:--</div>
     </div>
 
-    <!-- Модальное окно с навигацией -->
+    <!-- Модальное окно -->
     <div id="image-modal" class="modal">
         <span class="modal-close">&times;</span>
         <button class="modal-nav prev" id="modal-prev"><i class="fas fa-chevron-left"></i></button>
@@ -432,7 +424,6 @@
 
                     if (this.total === 0) return;
 
-                    // Точки
                     this.dotsContainer.innerHTML = '';
                     this.slides.forEach((_, i) => {
                         const dot = document.createElement('span');
@@ -443,11 +434,9 @@
                     });
                     this.dots = this.dotsContainer.querySelectorAll('.dot');
 
-                    // Кнопки навигации
                     this.prevBtn.addEventListener('click', () => this.prev());
                     this.nextBtn.addEventListener('click', () => this.next());
 
-                    // Свайпы
                     let startX = 0;
                     let isDragging = false;
                     this.container.addEventListener('touchstart', (e) => {
@@ -525,33 +514,28 @@
                     }
                 }
 
-                // Метод для получения текущего изображения
                 getCurrentImage() {
                     const slide = this.slides[this.currentIndex];
                     return slide ? slide.querySelector('img') : null;
                 }
 
-                // Метод для открытия модалки с текущим фото
                 openModal() {
                     const img = this.getCurrentImage();
                     if (img) {
                         modalImg.src = img.src;
                         modal.classList.add('active');
                         document.body.style.overflow = 'hidden';
-                        // Останавливаем автопрокрутку, пока модалка открыта
                         this.stopAutoplay();
                     }
                 }
             }
 
-            // Инициализация всех каруселей
             const carousels = [];
             document.querySelectorAll('.carousel-container').forEach(container => {
                 const carousel = new Carousel(container);
                 carousels.push(carousel);
             });
 
-            // Находим активную карусель (по видимости)
             function getActiveCarousel() {
                 for (let c of carousels) {
                     if (c.container.closest('.tab-content.active')) {
@@ -568,7 +552,6 @@
             const modalPrev = document.getElementById('modal-prev');
             const modalNext = document.getElementById('modal-next');
 
-            // Клик по фото в карусели – открываем модалку
             document.querySelectorAll('.carousel-slide img').forEach(img => {
                 img.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -579,12 +562,10 @@
                 });
             });
 
-            // Закрытие
             function closeModal() {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
                 modalImg.src = '';
-                // Возобновляем автопрокрутку, если не на паузе
                 const activeCarousel = getActiveCarousel();
                 if (activeCarousel && !activeCarousel.isPaused) {
                     activeCarousel.startAutoplay();
@@ -599,7 +580,6 @@
                 if (e.key === 'Escape') closeModal();
             });
 
-            // Навигация внутри модалки
             function modalPrevSlide() {
                 const activeCarousel = getActiveCarousel();
                 if (activeCarousel) {
@@ -627,7 +607,6 @@
                 modalNextSlide();
             });
 
-            // Клавиши влево-вправо в модалке
             document.addEventListener('keydown', function(e) {
                 if (!modal.classList.contains('active')) return;
                 if (e.key === 'ArrowLeft') {
@@ -639,8 +618,6 @@
                 }
             });
 
-            // Обновление модального фото при переключении слайда (если модалка открыта)
-            // Для этого переопределим goTo, чтобы обновлять модалку
             const originalGoTo = Carousel.prototype.goTo;
             Carousel.prototype.goTo = function(index) {
                 originalGoTo.call(this, index);
@@ -650,7 +627,6 @@
                 }
             };
 
-            // Также обновляем при переключении вкладки, если модалка открыта – закрываем её
             const originalSwitchTab = switchTab;
             switchTab = function(tabId) {
                 if (modal.classList.contains('active')) closeModal();

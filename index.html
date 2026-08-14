@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
     <style>
-        /* ── Базовые сбросы и общие стили ── */
+        /* ── Базовые сбросы ── */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0b0b0b;
@@ -36,7 +35,7 @@
             transition: opacity 0.8s ease;
         }
 
-        /* ── Частицы (Canvas) ── */
+        /* ── Частицы ── */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -55,7 +54,6 @@
             backdrop-filter: blur(8px);
             border-bottom: 2px solid rgba(255, 165, 0, 0.3);
         }
-
         header h1 {
             font-size: 2.8rem;
             font-weight: 700;
@@ -65,7 +63,6 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
         }
-
         header p {
             font-size: 1.2rem;
             opacity: 0.8;
@@ -73,7 +70,7 @@
             color: #ddd;
         }
 
-        /* ── Навигация (вкладки) ── */
+        /* ── Навигация ── */
         .tabs {
             display: flex;
             flex-wrap: wrap;
@@ -87,7 +84,6 @@
             top: 0;
             z-index: 10;
         }
-
         .tab-btn {
             background: transparent;
             border: 2px solid rgba(255, 255, 255, 0.15);
@@ -105,17 +101,14 @@
             align-items: center;
             gap: 8px;
         }
-
         .tab-btn i {
             font-size: 1.1rem;
         }
-
         .tab-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 165, 0, 0.5);
             color: #fff;
         }
-
         .tab-btn.active {
             background: #ffa500;
             border-color: #ffa500;
@@ -131,38 +124,27 @@
             margin: 0 auto;
             animation: fadeIn 0.5s ease;
         }
-
         .tab-content.active {
             display: block;
         }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .greeting {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .greeting h1 {
             font-size: 2.5rem;
             font-weight: 700;
             text-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
             margin-bottom: 10px;
         }
-
         .greeting h1 i {
             margin-right: 12px;
         }
-
         .greeting .description {
             font-size: 1.2rem;
             max-width: 800px;
@@ -176,13 +158,12 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: left;
         }
-
         .greeting .description i {
             margin-right: 8px;
             color: var(--accent, #ffa500);
         }
 
-        /* ── Карусель (исправлено: фото не обрезаются) ── */
+        /* ── Карусель ── */
         .carousel-container {
             position: relative;
             width: 100%;
@@ -204,27 +185,25 @@
 
         .carousel-slide {
             min-width: 100%;
-            height: 420px; /* фиксированная высота для стабильности */
+            height: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             background: #1a1a1a;
             position: relative;
-            padding: 0;
+            cursor: pointer; /* указывает, что по клику можно увеличить */
         }
-
         .carousel-slide img {
             max-width: 100%;
             max-height: 100%;
             width: auto;
             height: auto;
-            object-fit: contain; /* главное: не обрезает, а вписывает */
+            object-fit: contain;
             display: block;
             user-select: none;
-            flex-shrink: 0;
+            pointer-events: auto; /* чтобы клик срабатывал */
         }
-
         .carousel-slide .caption {
             position: absolute;
             bottom: 20px;
@@ -240,7 +219,7 @@
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             font-style: italic;
-            pointer-events: none; /* чтобы не мешать кликам по кнопкам */
+            pointer-events: none; /* чтобы не мешать клику по фото */
         }
 
         /* Кнопки навигации */
@@ -264,29 +243,22 @@
             justify-content: center;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
         }
-
         .carousel-btn:hover {
             background: rgba(255, 165, 0, 0.8);
             color: #000;
         }
+        .carousel-btn.prev { left: 12px; }
+        .carousel-btn.next { right: 12px; }
 
-        .carousel-btn.prev {
-            left: 12px;
-        }
-        .carousel-btn.next {
-            right: 12px;
-        }
-
-        /* Точки-индикаторы */
+        /* Точки */
         .carousel-dots {
             display: flex;
             justify-content: center;
             gap: 10px;
-            padding: 14px 0 16px;
+            padding: 14px 0 10px;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(4px);
         }
-
         .carousel-dots .dot {
             width: 12px;
             height: 12px;
@@ -296,11 +268,36 @@
             transition: background 0.3s, transform 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .carousel-dots .dot.active {
             background: #ffa500;
             transform: scale(1.25);
             box-shadow: 0 0 12px rgba(255, 165, 0, 0.6);
+        }
+
+        /* ── Кнопка паузы (вместо панели управления) ── */
+        .pause-btn {
+            position: absolute;
+            bottom: 70px; /* над точками */
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+        .pause-btn:hover {
+            background: rgba(255, 165, 0, 0.8);
+            color: #000;
         }
 
         /* ── Аудиоплеер ── */
@@ -317,7 +314,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
-
         .audio-player .play-btn {
             background: #ffa500;
             border: none;
@@ -333,12 +329,10 @@
             justify-content: center;
             flex-shrink: 0;
         }
-
         .audio-player .play-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
         }
-
         .audio-player .progress-container {
             flex: 1;
             height: 6px;
@@ -347,7 +341,6 @@
             cursor: pointer;
             position: relative;
         }
-
         .audio-player .progress-bar {
             height: 100%;
             width: 0%;
@@ -355,7 +348,6 @@
             border-radius: 10px;
             transition: width 0.1s linear;
         }
-
         .audio-player .time {
             font-size: 0.85rem;
             opacity: 0.8;
@@ -364,7 +356,7 @@
             text-align: center;
         }
 
-        /* ── Таймер (фиксированный) ── */
+        /* ── Таймер ── */
         #timer {
             position: fixed;
             bottom: 30px;
@@ -380,14 +372,12 @@
             min-width: 150px;
             transition: opacity 0.4s;
         }
-
         #timer .label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             opacity: 0.6;
         }
-
         #timer .time-display {
             font-size: 1.8rem;
             font-weight: 700;
@@ -395,13 +385,12 @@
             font-variant-numeric: tabular-nums;
             margin-top: 2px;
         }
-
         #timer.hidden {
             opacity: 0;
             pointer-events: none;
         }
 
-        /* ── Конфетти (canvas) ── */
+        /* ── Конфетти ── */
         #confetti-canvas {
             position: fixed;
             top: 0;
@@ -412,102 +401,93 @@
             z-index: 100;
         }
 
+        /* ── Модальное окно для фото ── */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 210;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .modal-close:hover {
+            color: #ffa500;
+            background: rgba(255,255,255,0.1);
+        }
+
         /* ── Адаптив ── */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .tab-btn {
-                font-size: 0.8rem;
-                padding: 6px 16px;
-            }
-            .greeting h1 {
-                font-size: 1.8rem;
-            }
-            .greeting .description {
-                font-size: 1rem;
-                padding: 12px 16px;
-            }
-            .carousel-slide {
-                height: 300px;
-            }
-            .carousel-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 1.2rem;
-            }
-            .audio-player {
-                padding: 10px 14px;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            .audio-player .time {
-                min-width: 60px;
-            }
-            #timer {
-                bottom: 20px;
-                right: 20px;
-                padding: 10px 16px;
-                min-width: 120px;
-            }
-            #timer .time-display {
-                font-size: 1.4rem;
-            }
+            header h1 { font-size: 2rem; }
+            .tab-btn { font-size: 0.8rem; padding: 6px 16px; }
+            .greeting h1 { font-size: 1.8rem; }
+            .greeting .description { font-size: 1rem; padding: 12px 16px; }
+            .carousel-slide { height: 300px; }
+            .carousel-btn { width: 36px; height: 36px; font-size: 1.2rem; }
+            .audio-player { padding: 10px 14px; flex-wrap: wrap; gap: 10px; }
+            .audio-player .time { min-width: 60px; }
+            #timer { bottom: 20px; right: 20px; padding: 10px 16px; min-width: 120px; }
+            #timer .time-display { font-size: 1.4rem; }
+            .pause-btn { width: 34px; height: 34px; font-size: 1rem; bottom: 62px; right: 14px; }
         }
-
         @media (max-width: 480px) {
-            .carousel-slide {
-                height: 220px;
-            }
-            .carousel-slide .caption {
-                font-size: 0.8rem;
-                padding: 4px 12px;
-                margin: 0 10px;
-                bottom: 10px;
-            }
+            .carousel-slide { height: 220px; }
+            .carousel-slide .caption { font-size: 0.8rem; padding: 4px 12px; margin: 0 10px; bottom: 10px; }
         }
 
-        /* ── Тематические цвета (применяются через JS) ── */
-        .theme-yarik {
-            --accent: #e0a343;
-        }
-        .theme-olya {
-            --accent: #f7a1c4;
-        }
-        .theme-andrey {
-            --accent: #2ecc71;
-        }
-        .theme-andrey_m {
-            --accent: #ff7700;
-        }
-        .theme-vanusha {
-            --accent: #ff3b8a;
-        }
-        .theme-nikita {
-            --accent: #6fcf97;
-        }
-        .theme-mikhail {
-            --accent: #d4a017;
-        }
+        /* ── Тематические цвета ── */
+        .theme-yarik { --accent: #e0a343; }
+        .theme-olya { --accent: #f7a1c4; }
+        .theme-andrey { --accent: #2ecc71; }
+        .theme-andrey_m { --accent: #ff7700; }
+        .theme-vanusha { --accent: #ff3b8a; }
+        .theme-nikita { --accent: #6fcf97; }
+        .theme-mikhail { --accent: #d4a017; }
 
-        .tab-btn.active {
-            background: var(--accent, #ffa500);
-            border-color: var(--accent, #ffa500);
-            color: #000;
-        }
-        .carousel-dots .dot.active {
-            background: var(--accent, #ffa500);
-            box-shadow: 0 0 12px var(--accent, #ffa500);
-        }
-        .audio-player .play-btn {
-            background: var(--accent, #ffa500);
-        }
-        .audio-player .progress-bar {
-            background: var(--accent, #ffa500);
-        }
-        #timer .time-display {
-            color: var(--accent, #ffa500);
-        }
+        .tab-btn.active { background: var(--accent, #ffa500); border-color: var(--accent, #ffa500); color: #000; }
+        .carousel-dots .dot.active { background: var(--accent, #ffa500); box-shadow: 0 0 12px var(--accent, #ffa500); }
+        .audio-player .play-btn { background: var(--accent, #ffa500); }
+        .audio-player .progress-bar { background: var(--accent, #ffa500); }
+        #timer .time-display { color: var(--accent, #ffa500); }
+        .pause-btn { color: var(--accent, #ffa500); border: 1px solid var(--accent, #ffa500); }
+        .pause-btn:hover { background: var(--accent, #ffa500); color: #000; }
     </style>
 </head>
 <body>
@@ -580,6 +560,8 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <!-- Кнопка паузы -->
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/yarik.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -610,6 +592,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/olya.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -641,6 +624,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/andrey.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -677,6 +661,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/andrey_m.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -710,6 +695,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/vanusha.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -735,6 +721,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/nikita.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -762,6 +749,7 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/mikhail.mp3">
                 <button class="play-btn"><i class="fas fa-play"></i></button>
@@ -776,6 +764,12 @@
     <div id="timer">
         <div class="label">До дня рождения</div>
         <div class="time-display" id="timerDisplay">--:--:--:--</div>
+    </div>
+
+    <!-- Модальное окно для фото -->
+    <div id="image-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-img" src="" alt="Увеличенное фото" />
     </div>
 
     <!-- ==================== СКРИПТЫ ==================== -->
@@ -822,6 +816,7 @@
                     window.particles.setColor(color);
                 }
 
+                // Сброс карусели на первый слайд
                 const container = document.querySelector(`.carousel-container[data-person="${tabId}"]`);
                 if (container && container._carousel) {
                     container._carousel.goTo(0);
@@ -834,7 +829,7 @@
                 });
             });
 
-            // ---------- Карусель ----------
+            // ---------- Класс Carousel (с паузой) ----------
             class Carousel {
                 constructor(container) {
                     this.container = container;
@@ -843,14 +838,17 @@
                     this.dotsContainer = container.querySelector('.carousel-dots');
                     this.prevBtn = container.querySelector('.carousel-btn.prev');
                     this.nextBtn = container.querySelector('.carousel-btn.next');
+                    this.pauseBtn = container.querySelector('.pause-btn');
 
                     this.currentIndex = 0;
                     this.total = this.slides.length;
                     this.interval = null;
                     this.autoplayDelay = 5000;
+                    this.isPaused = false;
 
                     if (this.total === 0) return;
 
+                    // Точки
                     this.dotsContainer.innerHTML = '';
                     this.slides.forEach((_, i) => {
                         const dot = document.createElement('span');
@@ -861,9 +859,11 @@
                     });
                     this.dots = this.dotsContainer.querySelectorAll('.dot');
 
+                    // Кнопки навигации
                     this.prevBtn.addEventListener('click', () => this.prev());
                     this.nextBtn.addEventListener('click', () => this.next());
 
+                    // Свайпы
                     let startX = 0;
                     let isDragging = false;
                     this.container.addEventListener('touchstart', (e) => {
@@ -878,16 +878,22 @@
                             if (diff > 0) this.next();
                             else this.prev();
                             isDragging = false;
-                            this.startAutoplay();
+                            if (!this.isPaused) this.startAutoplay();
                         }
                     }, { passive: true });
                     this.container.addEventListener('touchend', () => {
                         isDragging = false;
-                        this.startAutoplay();
+                        if (!this.isPaused) this.startAutoplay();
                     }, { passive: true });
 
+                    // Пауза при наведении
                     this.container.addEventListener('mouseenter', () => this.stopAutoplay());
-                    this.container.addEventListener('mouseleave', () => this.startAutoplay());
+                    this.container.addEventListener('mouseleave', () => {
+                        if (!this.isPaused) this.startAutoplay();
+                    });
+
+                    // Кнопка паузы
+                    this.pauseBtn.addEventListener('click', () => this.togglePause());
 
                     this.update();
                     this.startAutoplay();
@@ -915,6 +921,7 @@
                 startAutoplay() {
                     if (this.interval) return;
                     if (this.total <= 1) return;
+                    if (this.isPaused) return;
                     this.interval = setInterval(() => this.next(), this.autoplayDelay);
                 }
 
@@ -924,11 +931,62 @@
                         this.interval = null;
                     }
                 }
+
+                togglePause() {
+                    this.isPaused = !this.isPaused;
+                    if (this.isPaused) {
+                        this.stopAutoplay();
+                        this.pauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    } else {
+                        this.startAutoplay();
+                        this.pauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    }
+                }
             }
 
+            // Инициализация всех каруселей
             document.querySelectorAll('.carousel-container').forEach(container => {
                 new Carousel(container);
             });
+
+            // ---------- Модальное окно для фото ----------
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalClose = document.querySelector('.modal-close');
+
+            // Открытие модалки по клику на фото
+            document.querySelectorAll('.carousel-slide img').forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.stopPropagation(); // чтобы не вызывать другие клики
+                    const src = this.getAttribute('src');
+                    modalImg.src = src;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // запрещаем скролл
+                });
+            });
+
+            // Закрытие по клику на фон (на сам modal)
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Закрытие по крестику
+            modalClose.addEventListener('click', closeModal);
+
+            // Закрытие по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                modalImg.src = ''; // очищаем, чтобы не грузилось лишнее
+            }
 
             // ---------- Аудиоплееры ----------
             document.querySelectorAll('.audio-player').forEach(player => {

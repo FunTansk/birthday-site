@@ -1,25 +1,530 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>С днём рождения, Ярик!</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Библиотека для конфетти -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>С днём рождения, друзья!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Базовые сбросы и общие стили ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b0b0b;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* ── Видеофон ── */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.6;
+            transition: opacity 0.8s ease;
+        }
+
+        /* ── Частицы (Canvas) ── */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ── Шапка ── */
+        header {
+            text-align: center;
+            padding: 30px 20px 10px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid rgba(255, 165, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffa500, #ff6a00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-top: 6px;
+            color: #ddd;
+        }
+
+        /* ── Навигация (вкладки) ── */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 15px;
+            padding: 20px 15px 10px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: #ccc;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn i {
+            font-size: 1.1rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 165, 0, 0.5);
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            background: #ffa500;
+            border-color: #ffa500;
+            color: #000;
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
+        }
+
+        /* ── Контент вкладок ── */
+        .tab-content {
+            display: none;
+            padding: 30px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .greeting {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .greeting h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .greeting h1 i {
+            margin-right: 12px;
+        }
+
+        .greeting .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 10px auto 0;
+            opacity: 0.9;
+            line-height: 1.7;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 18px 28px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        .greeting .description i {
+            margin-right: 8px;
+            color: var(--accent, #ffa500);
+        }
+
+        /* ── Карусель ── */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+        }
+
+        .carousel-slide .caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            color: #fff;
+            margin: 0 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-style: italic;
+        }
+
+        /* Кнопки навигации */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 165, 0, 0.8);
+            color: #000;
+        }
+
+        .carousel-btn.prev {
+            left: 12px;
+        }
+        .carousel-btn.next {
+            right: 12px;
+        }
+
+        /* Точки-индикаторы */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 0 16px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-dots .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .carousel-dots .dot.active {
+            background: #ffa500;
+            transform: scale(1.25);
+            box-shadow: 0 0 12px rgba(255, 165, 0, 0.6);
+        }
+
+        /* ── Аудиоплеер ── */
+        .audio-player {
+            max-width: 500px;
+            margin: 25px auto 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .audio-player .play-btn {
+            background: #ffa500;
+            border: none;
+            color: #000;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .audio-player .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+        }
+
+        .audio-player .progress-container {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .audio-player .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #ffa500;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .audio-player .time {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-variant-numeric: tabular-nums;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* ── Таймер (фиксированный) ── */
+        #timer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            padding: 14px 22px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            z-index: 20;
+            text-align: center;
+            min-width: 150px;
+            transition: opacity 0.4s;
+        }
+
+        #timer .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+
+        #timer .time-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffa500;
+            font-variant-numeric: tabular-nums;
+            margin-top: 2px;
+        }
+
+        #timer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ── Конфетти (canvas) ── */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* ── Адаптив ── */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 6px 16px;
+            }
+            .greeting h1 {
+                font-size: 1.8rem;
+            }
+            .greeting .description {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+            .carousel-slide {
+                height: 250px;
+            }
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+            .audio-player {
+                padding: 10px 14px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .audio-player .time {
+                min-width: 60px;
+            }
+            #timer {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 16px;
+                min-width: 120px;
+            }
+            #timer .time-display {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-slide {
+                height: 180px;
+            }
+            .carousel-slide .caption {
+                font-size: 0.8rem;
+                padding: 4px 12px;
+                margin: 0 10px;
+            }
+        }
+
+        /* ── Тематические цвета (применяются через JS) ── */
+        .theme-yarik {
+            --accent: #e0a343;
+        }
+        .theme-olya {
+            --accent: #f7a1c4;
+        }
+        .theme-andrey {
+            --accent: #2ecc71;
+        }
+        .theme-andrey_m {
+            --accent: #ff7700;
+        }
+        .theme-vanusha {
+            --accent: #ff3b8a;
+        }
+        .theme-nikita {
+            --accent: #6fcf97;
+        }
+        .theme-mikhail {
+            --accent: #d4a017;
+        }
+
+        .tab-btn.active {
+            background: var(--accent, #ffa500);
+            border-color: var(--accent, #ffa500);
+            color: #000;
+        }
+        .carousel-dots .dot.active {
+            background: var(--accent, #ffa500);
+            box-shadow: 0 0 12px var(--accent, #ffa500);
+        }
+        .audio-player .play-btn {
+            background: var(--accent, #ffa500);
+        }
+        .audio-player .progress-bar {
+            background: var(--accent, #ffa500);
+        }
+        #timer .time-display {
+            color: var(--accent, #ffa500);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Фоновое видео (будет подставлено через JS) -->
-    <video id="bg-video" autoplay loop muted playsinline></video>
+    <!-- Видеофон -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="videos/yarik/bg.mp4" type="video/mp4" />
+    </video>
 
-    <!-- Фоновый canvas для частиц -->
+    <!-- Частицы -->
     <canvas id="particles-canvas"></canvas>
 
+    <!-- Конфетти -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Шапка -->
+    <header>
+        <h1>🎉 С Днём Рождения! 🎂</h1>
+        <p>Поздравления от души для каждого из вас</p>
+    </header>
+
     <!-- Навигация -->
-    <nav class="tab-nav">
+    <nav class="tabs" id="tabNav">
         <button class="tab-btn active" data-tab="yarik"><i class="fas fa-car"></i> Ярик</button>
         <button class="tab-btn" data-tab="olya"><i class="fas fa-heart"></i> Оля</button>
         <button class="tab-btn" data-tab="andrey"><i class="fas fa-stethoscope"></i> Андрей</button>
@@ -29,285 +534,634 @@
         <button class="tab-btn" data-tab="mikhail"><i class="fas fa-hammer"></i> Михаил</button>
     </nav>
 
-    <!-- Контейнер -->
-    <main class="tab-container">
+    <!-- Контент -->
+    <main>
 
-        <!-- ===== ВКЛАДКА ЯРИК ===== -->
-        <section id="yarik" class="tab-content active" data-theme="yarik">
-            <div class="tab-inner">
-                <h1><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
+        <!-- ===== Ярик ===== -->
+        <div class="tab-content active" id="tab-yarik">
+            <div class="greeting">
+                <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
                 <p class="description">
                     <i class="fas fa-wrench"></i> Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
                 </p>
-                <!-- Карусель -->
-                <div class="carousel-container" data-theme="yarik">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/yarik/1.jpg" alt="Ярик в гараже">
-                            <p class="caption">«Чат ы рка — это не просто машина, это стиль жизни»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/yarik/2.jpg" alt="Ярик с друзьями">
-                            <p class="caption">«Когда сварка удалась, и всё ровно»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/yarik/3.jpg" alt="Ярик улыбается">
-                            <p class="caption">«Улыбка, которая греет даже в гараже»</p>
-                        </div>
-                        <!-- добавьте ещё слайды по желанию -->
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/yarik.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="yarik">
+                <div class="carousel-inner">
+                    <!-- 22 слайда -->
+                    <div class="carousel-slide"><img src="images/yarik/1.jpg" alt="Фото 1"><p class="caption">«Чат ы рка — это не просто машина, это стиль жизни»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/2.jpg" alt="Фото 2"><p class="caption">«Когда сварка удалась, и всё ровно»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/3.jpg" alt="Фото 3"><p class="caption">«Улыбка, которая греет даже в гараже»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/4.jpg" alt="Фото 4"><p class="caption">«Мастер на все руки»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/5.jpg" alt="Фото 5"><p class="caption">«В движении — жизнь»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/6.jpg" alt="Фото 6"><p class="caption">«Гараж — его второй дом»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/7.jpg" alt="Фото 7"><p class="caption">«Друзья знают: если Ярик взялся — будет сделано»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/8.jpg" alt="Фото 8"><p class="caption">«Спокойствие и уверенность»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/9.jpg" alt="Фото 9"><p class="caption">«Любит порядок во всём»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/10.jpg" alt="Фото 10"><p class="caption">«Иногда — серьёзный, но всегда добрый»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/11.jpg" alt="Фото 11"><p class="caption">«В кругу семьи»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/12.jpg" alt="Фото 12"><p class="caption">«С друзьями — душа компании»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/13.jpg" alt="Фото 13"><p class="caption">«Работает руками, думает головой»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/14.jpg" alt="Фото 14"><p class="caption">«Умеет слушать и слышать»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/15.jpg" alt="Фото 15"><p class="caption">«Взгляд, полный решимости»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/16.jpg" alt="Фото 16"><p class="caption">«Любит природу и тишину»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/17.jpg" alt="Фото 17"><p class="caption">«С юмором — всегда на высоте»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/18.jpg" alt="Фото 18"><p class="caption">«За рулём — как рыба в воде»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/19.jpg" alt="Фото 19"><p class="caption">«Спортивный и активный»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/20.jpg" alt="Фото 20"><p class="caption">«Всегда готов прийти на помощь»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/21.jpg" alt="Фото 21"><p class="caption">«Ценит настоящую дружбу»</p></div>
+                    <div class="carousel-slide"><img src="images/yarik/22.jpg" alt="Фото 22"><p class="caption">«С днём рождения, наш гаражный маг!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/yarik.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА ОЛЯ ===== -->
-        <section id="olya" class="tab-content" data-theme="olya">
-            <div class="tab-inner">
-                <h1><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
+        <!-- ===== Оля ===== -->
+        <div class="tab-content" id="tab-olya">
+            <div class="greeting">
+                <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
                 <p class="description">
                     <i class="fas fa-utensils"></i> Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. Оля — это греющий компромисс между плюшевым мишкой и терминатором. Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.
                 </p>
-                <div class="carousel-container" data-theme="olya">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/olya/1.jpg" alt="Оля и Ярик">
-                            <p class="caption">«Самый нежный взгляд, но сковорода наготове»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/olya/2.jpg" alt="Оля смеётся">
-                            <p class="caption">«Когда смех — лучшее оружие»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/olya.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="olya">
+                <div class="carousel-inner">
+                    <!-- 7 слайдов -->
+                    <div class="carousel-slide"><img src="images/olya/1.jpg" alt="Фото 1"><p class="caption">«Самый нежный взгляд, но сковорода наготове»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/2.jpg" alt="Фото 2"><p class="caption">«Когда смех — лучшее оружие»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/3.jpg" alt="Фото 3"><p class="caption">«Уют и тепло рядом с ней»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/4.jpg" alt="Фото 4"><p class="caption">«Заботливая и чуткая»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/5.jpg" alt="Фото 5"><p class="caption">«Сковорода — её верный друг»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/6.jpg" alt="Фото 6"><p class="caption">«Любит готовить и удивлять»</p></div>
+                    <div class="carousel-slide"><img src="images/olya/7.jpg" alt="Фото 7"><p class="caption">«Красота и сила в одном флаконе»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/olya.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА АНДРЕЙ ===== -->
-        <section id="andrey" class="tab-content" data-theme="andrey">
-            <div class="tab-inner">
-                <h1><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
+        <!-- ===== Андрей ===== -->
+        <div class="tab-content" id="tab-andrey">
+            <div class="greeting">
+                <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
                 <p class="description">
                     <i class="fas fa-pills"></i> Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно думает — скорее всего, он просто вспоминает, куда положил ключи.
                 </p>
-                <div class="carousel-container" data-theme="andrey">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/andrey/1.jpg" alt="Андрей с книгой">
-                            <p class="caption">«Готовится стать доктором, но пока учит нас, как не простудиться»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/andrey/2.jpg" alt="Андрей задумался">
-                            <p class="caption">«Кажется, он вспоминает, куда положил ключи... опять»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/andrey.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="andrey">
+                <div class="carousel-inner">
+                    <!-- 8 слайдов -->
+                    <div class="carousel-slide"><img src="images/andrey/1.jpg" alt="Фото 1"><p class="caption">«Готовится стать доктором, но пока учит нас, как не простудиться»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/2.jpg" alt="Фото 2"><p class="caption">«Кажется, он вспоминает, куда положил ключи... опять»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/3.jpg" alt="Фото 3"><p class="caption">«Всегда в движении и поиске»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/4.jpg" alt="Фото 4"><p class="caption">«Улыбка, которая заряжает»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/5.jpg" alt="Фото 5"><p class="caption">«Любит учиться и пробовать новое»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/6.jpg" alt="Фото 6"><p class="caption">«С друзьями — всегда весело»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/7.jpg" alt="Фото 7"><p class="caption">«Надёжный товарищ»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey/8.jpg" alt="Фото 8"><p class="caption">«С днём рождения, будущий доктор!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/andrey.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА АНДРЕЙ МЛАДШИЙ ===== -->
-        <section id="andrey_m" class="tab-content" data-theme="andrey_m">
-            <div class="tab-inner">
-                <h1><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
+        <!-- ===== Андрей младший ===== -->
+        <div class="tab-content" id="tab-andrey_m">
+            <div class="greeting">
+                <h1 style="color:#ff7700;"><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
                 <p class="description">
                     <i class="fas fa-gamepad"></i> Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он давно перерос всех по харизме, просто скромничает.
                 </p>
-                <div class="carousel-container" data-theme="andrey_m">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/andrey_m/1.jpg" alt="Андрей за компом">
-                            <p class="caption">«Его стихия — ракеты и хедшоты»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/andrey_m/2.jpg" alt="Андрей с друзьями">
-                            <p class="caption">«Когда CS2 переходит в реальную жизнь»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/andrey_m.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="andrey_m">
+                <div class="carousel-inner">
+                    <!-- 13 слайдов -->
+                    <div class="carousel-slide"><img src="images/andrey_m/1.jpg" alt="Фото 1"><p class="caption">«Его стихия — ракеты и хедшоты»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/2.jpg" alt="Фото 2"><p class="caption">«Когда CS2 переходит в реальную жизнь»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/3.jpg" alt="Фото 3"><p class="caption">«В центре внимания»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/4.jpg" alt="Фото 4"><p class="caption">«Стратег и тактик»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/5.jpg" alt="Фото 5"><p class="caption">«Музыка — его вторая душа»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/6.jpg" alt="Фото 6"><p class="caption">«Умеет зарядить энергией»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/7.jpg" alt="Фото 7"><p class="caption">«Дружба для него — святое»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/8.jpg" alt="Фото 8"><p class="caption">«Никогда не унывает»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/9.jpg" alt="Фото 9"><p class="caption">«Фанат своего дела»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/10.jpg" alt="Фото 10"><p class="caption">«Всегда в игре»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/11.jpg" alt="Фото 11"><p class="caption">«С юмором — на ты»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/12.jpg" alt="Фото 12"><p class="caption">«Взрывной характер»</p></div>
+                    <div class="carousel-slide"><img src="images/andrey_m/13.jpg" alt="Фото 13"><p class="caption">«С днём рождения, наш ракетчик!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/andrey_m.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА ВАНЮША ===== -->
-        <section id="vanusha" class="tab-content" data-theme="vanusha">
-            <div class="tab-inner">
-                <h1><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
+        <!-- ===== Ванюша ===== -->
+        <div class="tab-content" id="tab-vanusha">
+            <div class="greeting">
+                <h1 style="color:#ff3b8a;"><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
                 <p class="description">
                     <i class="fas fa-smile-wink"></i> Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же станцевать вальс. С ним любая драма превращается в комедию.
                 </p>
-                <div class="carousel-container" data-theme="vanusha">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/vanusha/1.jpg" alt="Ванюша улыбается">
-                            <p class="caption">«Этот взгляд способен разоружить любого»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/vanusha/2.jpg" alt="Ванюша в компании">
-                            <p class="caption">«Король вечеринок, даже если на нём только кепка»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/vanusha.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="vanusha">
+                <div class="carousel-inner">
+                    <!-- 10 слайдов -->
+                    <div class="carousel-slide"><img src="images/vanusha/1.jpg" alt="Фото 1"><p class="caption">«Этот взгляд способен разоружить любого»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/2.jpg" alt="Фото 2"><p class="caption">«Король вечеринок, даже если на нём только кепка»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/3.jpg" alt="Фото 3"><p class="caption">«Обаяние — его суперсила»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/4.jpg" alt="Фото 4"><p class="caption">«Умеет рассмешить в любой ситуации»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/5.jpg" alt="Фото 5"><p class="caption">«Стиль — это про него»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/6.jpg" alt="Фото 6"><p class="caption">«Душа компании»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/7.jpg" alt="Фото 7"><p class="caption">«Артист в душе»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/8.jpg" alt="Фото 8"><p class="caption">«Всегда позитивный»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/9.jpg" alt="Фото 9"><p class="caption">«Его энергия заражает»</p></div>
+                    <div class="carousel-slide"><img src="images/vanusha/10.jpg" alt="Фото 10"><p class="caption">«С днём рождения, наш король!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/vanusha.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА НИКИТА ===== -->
-        <section id="nikita" class="tab-content" data-theme="nikita">
-            <div class="tab-inner">
-                <h1><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
+        <!-- ===== Никита ===== -->
+        <div class="tab-content" id="tab-nikita">
+            <div class="greeting">
+                <h1 style="color:#6fcf97;"><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
                 <p class="description">
                     <i class="fas fa-wifi"></i> Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки уже стали частью нашего фольклора.
                 </p>
-                <div class="carousel-container" data-theme="nikita">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/nikita/1.jpg" alt="Никита с ноутбуком">
-                            <p class="caption">«Сигнал есть всегда, если рядом Никита»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/nikita/2.jpg" alt="Никита смеётся">
-                            <p class="caption">«Смех, который ломает любые битые сектора»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/nikita.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="nikita">
+                <div class="carousel-inner">
+                    <!-- 2 слайда -->
+                    <div class="carousel-slide"><img src="images/nikita/1.jpg" alt="Фото 1"><p class="caption">«Сигнал есть всегда, если рядом Никита»</p></div>
+                    <div class="carousel-slide"><img src="images/nikita/2.jpg" alt="Фото 2"><p class="caption">«Смех, который ломает любые битые сектора»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/nikita.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
-        <!-- ===== ВКЛАДКА МИХАИЛ ===== -->
-        <section id="mikhail" class="tab-content" data-theme="mikhail">
-            <div class="tab-inner">
-                <h1><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
+        <!-- ===== Михаил ===== -->
+        <div class="tab-content" id="tab-mikhail">
+            <div class="greeting">
+                <h1 style="color:#d4a017;"><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
                 <p class="description">
                     <i class="fas fa-beer"></i> Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. Наша скала, наш кузнец, наш звёздный подгорный властелин.
                 </p>
-                <div class="carousel-container" data-theme="mikhail">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="images/mikhail/1.jpg" alt="Михаил с бородой">
-                            <p class="caption">«Борода — это не просто аксессуар, это боевой щит»</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="images/mikhail/2.jpg" alt="Михаил с кружкой">
-                            <p class="caption">«Кружка пива — лучшее лекарство от всех болезней»</p>
-                        </div>
-                    </div>
-                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="carousel-dots"></div>
-                </div>
-                <div class="audio-wrapper">
-                    <p><i class="fas fa-microphone-alt"></i> Голосовое поздравление</p>
-                    <div class="player">
-                        <audio src="audio/mikhail.mp3" preload="metadata"></audio>
-                        <div class="controls">
-                            <button class="play-pause"><i class="fas fa-play"></i></button>
-                            <span class="current-time">0:00</span>
-                            <div class="progress-bar"><span class="progress-fill" style="width:0%"></span></div>
-                            <span class="duration">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
+            <div class="carousel-container" data-person="mikhail">
+                <div class="carousel-inner">
+                    <!-- 4 слайда -->
+                    <div class="carousel-slide"><img src="images/mikhail/1.jpg" alt="Фото 1"><p class="caption">«Борода — это не просто аксессуар, это боевой щит»</p></div>
+                    <div class="carousel-slide"><img src="images/mikhail/2.jpg" alt="Фото 2"><p class="caption">«Кружка пива — лучшее лекарство от всех болезней»</p></div>
+                    <div class="carousel-slide"><img src="images/mikhail/3.jpg" alt="Фото 3"><p class="caption">«Мастер RYTP и подземелий»</p></div>
+                    <div class="carousel-slide"><img src="images/mikhail/4.jpg" alt="Фото 4"><p class="caption">«С днём рождения, наш властелин!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+            <div class="audio-player" data-audio="audio/mikhail.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
 
     </main>
 
-    <!-- Таймер до дня рождения (появится только если дата в будущем) -->
-    <div id="birthday-timer" style="display:none;">
-        <div class="timer-content">
-            <i class="fas fa-gift"></i>
-            <span id="timer-text"></span>
-        </div>
+    <!-- Таймер -->
+    <div id="timer">
+        <div class="label">До дня рождения</div>
+        <div class="time-display" id="timerDisplay">--:--:--:--</div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ==================== СКРИПТЫ ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            'use strict';
+
+            // ---------- Вкладки ----------
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const bgVideo = document.getElementById('bg-video');
+
+            // Цвета для тем
+            const themeColors = {
+                yarik: '#e0a343',
+                olya: '#f7a1c4',
+                andrey: '#2ecc71',
+                andrey_m: '#ff7700',
+                vanusha: '#ff3b8a',
+                nikita: '#6fcf97',
+                mikhail: '#d4a017'
+            };
+
+            function switchTab(tabId) {
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+
+                const activeContent = document.getElementById('tab-' + tabId);
+                if (activeContent) activeContent.classList.add('active');
+                const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                if (activeBtn) activeBtn.classList.add('active');
+
+                const color = themeColors[tabId] || '#ffa500';
+                document.documentElement.style.setProperty('--accent', color);
+                document.body.className = 'theme-' + tabId;
+
+                // Видео
+                const videoSrc = `videos/${tabId}/bg.mp4`;
+                if (bgVideo.src !== videoSrc) {
+                    bgVideo.src = videoSrc;
+                    bgVideo.load();
+                    bgVideo.play().catch(() => {});
+                }
+
+                // Частицы
+                if (window.particles) {
+                    window.particles.setColor(color);
+                }
+
+                // Сброс карусели
+                const container = document.querySelector(`.carousel-container[data-person="${tabId}"]`);
+                if (container && container._carousel) {
+                    container._carousel.goTo(0);
+                }
+            }
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
+            });
+
+            // ---------- Карусель ----------
+            class Carousel {
+                constructor(container) {
+                    this.container = container;
+                    this.inner = container.querySelector('.carousel-inner');
+                    this.slides = this.inner.querySelectorAll('.carousel-slide');
+                    this.dotsContainer = container.querySelector('.carousel-dots');
+                    this.prevBtn = container.querySelector('.carousel-btn.prev');
+                    this.nextBtn = container.querySelector('.carousel-btn.next');
+
+                    this.currentIndex = 0;
+                    this.total = this.slides.length;
+                    this.interval = null;
+                    this.autoplayDelay = 5000;
+
+                    if (this.total === 0) return;
+
+                    this.dotsContainer.innerHTML = '';
+                    this.slides.forEach((_, i) => {
+                        const dot = document.createElement('span');
+                        dot.className = 'dot' + (i === 0 ? ' active' : '');
+                        dot.dataset.index = i;
+                        dot.addEventListener('click', () => this.goTo(i));
+                        this.dotsContainer.appendChild(dot);
+                    });
+                    this.dots = this.dotsContainer.querySelectorAll('.dot');
+
+                    this.prevBtn.addEventListener('click', () => this.prev());
+                    this.nextBtn.addEventListener('click', () => this.next());
+
+                    let startX = 0;
+                    let isDragging = false;
+                    this.container.addEventListener('touchstart', (e) => {
+                        startX = e.touches[0].clientX;
+                        isDragging = true;
+                        this.stopAutoplay();
+                    }, { passive: true });
+                    this.container.addEventListener('touchmove', (e) => {
+                        if (!isDragging) return;
+                        const diff = startX - e.touches[0].clientX;
+                        if (Math.abs(diff) > 50) {
+                            if (diff > 0) this.next();
+                            else this.prev();
+                            isDragging = false;
+                            this.startAutoplay();
+                        }
+                    }, { passive: true });
+                    this.container.addEventListener('touchend', () => {
+                        isDragging = false;
+                        this.startAutoplay();
+                    }, { passive: true });
+
+                    this.container.addEventListener('mouseenter', () => this.stopAutoplay());
+                    this.container.addEventListener('mouseleave', () => this.startAutoplay());
+
+                    this.update();
+                    this.startAutoplay();
+                    this.container._carousel = this;
+                }
+
+                goTo(index) {
+                    if (index < 0) index = this.total - 1;
+                    if (index >= this.total) index = 0;
+                    this.currentIndex = index;
+                    this.update();
+                }
+
+                prev() { this.goTo(this.currentIndex - 1); }
+                next() { this.goTo(this.currentIndex + 1); }
+
+                update() {
+                    const offset = -this.currentIndex * 100;
+                    this.inner.style.transform = `translateX(${offset}%)`;
+                    this.dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === this.currentIndex);
+                    });
+                }
+
+                startAutoplay() {
+                    if (this.interval) return;
+                    if (this.total <= 1) return;
+                    this.interval = setInterval(() => this.next(), this.autoplayDelay);
+                }
+
+                stopAutoplay() {
+                    if (this.interval) {
+                        clearInterval(this.interval);
+                        this.interval = null;
+                    }
+                }
+            }
+
+            document.querySelectorAll('.carousel-container').forEach(container => {
+                new Carousel(container);
+            });
+
+            // ---------- Аудиоплееры ----------
+            document.querySelectorAll('.audio-player').forEach(player => {
+                const audio = new Audio(player.dataset.audio);
+                const playBtn = player.querySelector('.play-btn');
+                const progressBar = player.querySelector('.progress-bar');
+                const timeDisplay = player.querySelector('.time');
+                let isPlaying = false;
+
+                function formatTime(seconds) {
+                    if (isNaN(seconds)) return '0:00';
+                    const m = Math.floor(seconds / 60);
+                    const s = Math.floor(seconds % 60);
+                    return `${m}:${s.toString().padStart(2, '0')}`;
+                }
+
+                function updateProgress() {
+                    if (audio.duration) {
+                        const percent = (audio.currentTime / audio.duration) * 100;
+                        progressBar.style.width = percent + '%';
+                        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                    }
+                }
+
+                audio.addEventListener('timeupdate', updateProgress);
+                audio.addEventListener('loadedmetadata', () => {
+                    timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
+                });
+
+                playBtn.addEventListener('click', function() {
+                    if (isPlaying) {
+                        audio.pause();
+                        this.innerHTML = '<i class="fas fa-play"></i>';
+                    } else {
+                        audio.play().catch(() => {});
+                        this.innerHTML = '<i class="fas fa-pause"></i>';
+                    }
+                    isPlaying = !isPlaying;
+                });
+
+                audio.addEventListener('ended', function() {
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    isPlaying = false;
+                    progressBar.style.width = '0%';
+                    timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
+                });
+
+                const progressContainer = player.querySelector('.progress-container');
+                progressContainer.addEventListener('click', function(e) {
+                    if (!audio.duration) return;
+                    const rect = this.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const percent = clickX / rect.width;
+                    audio.currentTime = percent * audio.duration;
+                    updateProgress();
+                });
+            });
+
+            // ---------- Частицы ----------
+            const canvasP = document.getElementById('particles-canvas');
+            const ctxP = canvasP.getContext('2d');
+            let particles = [];
+            let particleColor = '#ffa500';
+
+            function resizeParticles() {
+                canvasP.width = window.innerWidth;
+                canvasP.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeParticles);
+            resizeParticles();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvasP.width;
+                    this.y = Math.random() * canvasP.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 1.2;
+                    this.speedY = (Math.random() - 0.5) * 1.2;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x > canvasP.width || this.x < 0) this.speedX *= -1;
+                    if (this.y > canvasP.height || this.y < 0) this.speedY *= -1;
+                }
+                draw() {
+                    ctxP.beginPath();
+                    ctxP.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctxP.fillStyle = particleColor;
+                    ctxP.globalAlpha = this.opacity;
+                    ctxP.fill();
+                    ctxP.globalAlpha = 1;
+                }
+            }
+
+            function initParticles(count) {
+                particles = [];
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animateParticles() {
+                ctxP.clearRect(0, 0, canvasP.width, canvasP.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+
+            const particleCount = Math.min(100, Math.floor(window.innerWidth * window.innerHeight / 8000));
+            initParticles(particleCount);
+            animateParticles();
+
+            window.particles = {
+                setColor: function(color) {
+                    particleColor = color;
+                }
+            };
+
+            // ---------- Конфетти ----------
+            const canvasC = document.getElementById('confetti-canvas');
+            const ctxC = canvasC.getContext('2d');
+            let confettiActive = false;
+            let confettiPieces = [];
+            let confettiAnimId = null;
+
+            function resizeConfetti() {
+                canvasC.width = window.innerWidth;
+                canvasC.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeConfetti);
+            resizeConfetti();
+
+            class ConfettiPiece {
+                constructor() {
+                    this.x = Math.random() * canvasC.width;
+                    this.y = Math.random() * canvasC.height - canvasC.height;
+                    this.w = Math.random() * 10 + 5;
+                    this.h = Math.random() * 6 + 3;
+                    this.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                    this.rotation = Math.random() * 360;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.1;
+                    this.speedY = Math.random() * 3 + 2;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.opacity = 1;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.rotation += this.rotSpeed;
+                    if (this.y > canvasC.height + 50) this.opacity = 0;
+                }
+                draw() {
+                    ctxC.save();
+                    ctxC.translate(this.x, this.y);
+                    ctxC.rotate(this.rotation);
+                    ctxC.globalAlpha = this.opacity;
+                    ctxC.fillStyle = this.color;
+                    ctxC.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+                    ctxC.restore();
+                }
+            }
+
+            function startConfetti(duration = 5000) {
+                if (confettiActive) return;
+                confettiActive = true;
+                const count = 200;
+                confettiPieces = [];
+                for (let i = 0; i < count; i++) {
+                    confettiPieces.push(new ConfettiPiece());
+                }
+
+                function animateConfetti() {
+                    ctxC.clearRect(0, 0, canvasC.width, canvasC.height);
+                    let alive = false;
+                    confettiPieces.forEach(p => {
+                        p.update();
+                        if (p.opacity > 0) {
+                            alive = true;
+                            p.draw();
+                        }
+                    });
+                    if (alive) {
+                        confettiAnimId = requestAnimationFrame(animateConfetti);
+                    } else {
+                        confettiActive = false;
+                        ctxC.clearRect(0, 0, canvasC.width, canvasC.height);
+                    }
+                }
+                animateConfetti();
+
+                setTimeout(() => {
+                    if (confettiActive) {
+                        confettiActive = false;
+                        if (confettiAnimId) {
+                            cancelAnimationFrame(confettiAnimId);
+                            confettiAnimId = null;
+                        }
+                        ctxC.clearRect(0, 0, canvasC.width, canvasC.height);
+                    }
+                }, duration);
+            }
+
+            setTimeout(() => startConfetti(6000), 2000);
+
+            // ---------- Таймер ----------
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerElement = document.getElementById('timer');
+            const targetDate = new Date('2026-08-11T00:00:00').getTime();
+
+            function updateTimer() {
+                const now = Date.now();
+                const diff = targetDate - now;
+                if (diff <= 0) {
+                    timerDisplay.textContent = '🎉 С Днём Рождения! 🎉';
+                    timerElement.classList.add('hidden');
+                    return;
+                }
+                timerElement.classList.remove('hidden');
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                timerDisplay.textContent =
+                    `${days}д ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            updateTimer();
+            setInterval(updateTimer, 1000);
+
+            // ---------- Стартовая активация ----------
+            switchTab('yarik');
+        });
+    </script>
 </body>
 </html>

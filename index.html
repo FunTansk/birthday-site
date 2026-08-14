@@ -7,509 +7,117 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
     <style>
-        /* ── Базовые сбросы ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0b0b0b;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background 0.5s ease;
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#0b0b0b; color:#fff; min-height:100vh; overflow-x:hidden; transition:background .5s ease; }
+        #bg-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; opacity:.6; transition:opacity .8s ease; }
+        #particles-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; }
+        header { text-align:center; padding:30px 20px 10px; background:rgba(0,0,0,.4); backdrop-filter:blur(8px); border-bottom:2px solid rgba(255,165,0,.3); }
+        header h1 { font-size:2.8rem; font-weight:700; letter-spacing:2px; background:linear-gradient(135deg,#ffa500,#ff6a00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 20px rgba(255,165,0,.3); }
+        header p { font-size:1.2rem; opacity:.8; margin-top:6px; color:#ddd; }
+        .tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 15px; padding:20px 15px 10px; background:rgba(0,0,0,.5); backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.05); position:sticky; top:0; z-index:10; }
+        .tab-btn { background:transparent; border:2px solid rgba(255,255,255,.15); color:#ccc; padding:10px 24px; border-radius:40px; font-size:1rem; font-weight:600; cursor:pointer; transition:all .3s ease; backdrop-filter:blur(4px); text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:8px; }
+        .tab-btn i { font-size:1.1rem; }
+        .tab-btn:hover { background:rgba(255,255,255,.05); border-color:rgba(255,165,0,.5); color:#fff; }
+        .tab-btn.active { background:#ffa500; border-color:#ffa500; color:#000; box-shadow:0 0 25px rgba(255,165,0,.4); }
+        .tab-content { display:none; padding:30px 20px 60px; max-width:1100px; margin:0 auto; animation:fadeIn .5s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+        .greeting { text-align:center; margin-bottom:30px; }
+        .greeting h1 { font-size:2.5rem; font-weight:700; text-shadow:0 0 30px rgba(255,165,0,.2); margin-bottom:10px; }
+        .greeting h1 i { margin-right:12px; }
+        .greeting .description { font-size:1.2rem; max-width:800px; margin:10px auto 0; opacity:.9; line-height:1.7; background:rgba(0,0,0,.3); padding:18px 28px; border-radius:20px; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,.05); text-align:left; }
+        .greeting .description i { margin-right:8px; color:var(--accent,#ffa500); }
+        .carousel-container { position:relative; width:100%; max-width:800px; margin:20px auto; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,.7); background:rgba(0,0,0,.3); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,.05); }
+        .carousel-inner { display:flex; transition:transform .6s cubic-bezier(.25,.46,.45,.94); will-change:transform; }
+        .carousel-slide { min-width:100%; height:420px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#1a1a1a; position:relative; cursor:pointer; }
+        .carousel-slide img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block; user-select:none; pointer-events:auto; }
+        .carousel-slide .caption { position:absolute; bottom:20px; left:0; right:0; text-align:center; background:rgba(0,0,0,.6); backdrop-filter:blur(4px); padding:8px 16px; font-size:.95rem; color:#fff; margin:0 20px; border-radius:30px; border:1px solid rgba(255,255,255,.1); font-style:italic; pointer-events:none; }
+        .carousel-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.6); backdrop-filter:blur(4px); color:#fff; border:none; width:44px; height:44px; border-radius:50%; font-size:1.6rem; cursor:pointer; transition:all .2s; z-index:5; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,.3); }
+        .carousel-btn:hover { background:rgba(255,165,0,.8); color:#000; }
+        .carousel-btn.prev { left:12px; }
+        .carousel-btn.next { right:12px; }
+        .carousel-dots { display:flex; justify-content:center; gap:10px; padding:14px 0 10px; background:rgba(0,0,0,.4); backdrop-filter:blur(4px); }
+        .carousel-dots .dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,.25); cursor:pointer; transition:background .3s,transform .2s; border:1px solid rgba(255,255,255,.1); }
+        .carousel-dots .dot.active { background:#ffa500; transform:scale(1.25); box-shadow:0 0 12px rgba(255,165,0,.6); }
+        .pause-btn { position:absolute; bottom:70px; right:20px; background:rgba(0,0,0,.6); backdrop-filter:blur(4px); color:#fff; border:none; width:40px; height:40px; border-radius:50%; font-size:1.2rem; cursor:pointer; transition:all .2s; z-index:6; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,.3); }
+        .pause-btn:hover { background:rgba(255,165,0,.8); color:#000; }
+        .audio-player { max-width:500px; margin:25px auto 0; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); padding:12px 20px; border-radius:50px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,.05); box-shadow:0 4px 20px rgba(0,0,0,.4); }
+        .audio-player .play-btn { background:#ffa500; border:none; color:#000; width:38px; height:38px; border-radius:50%; font-size:1.2rem; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .audio-player .play-btn:hover { transform:scale(1.05); box-shadow:0 0 20px rgba(255,165,0,.4); }
+        .audio-player .progress-container { flex:1; height:6px; background:rgba(255,255,255,.15); border-radius:10px; cursor:pointer; position:relative; }
+        .audio-player .progress-bar { height:100%; width:0%; background:#ffa500; border-radius:10px; transition:width .1s linear; }
+        .audio-player .time { font-size:.85rem; opacity:.8; font-variant-numeric:tabular-nums; min-width:80px; text-align:center; }
+        #timer { position:fixed; bottom:30px; right:30px; background:rgba(0,0,0,.75); backdrop-filter:blur(12px); padding:14px 22px; border-radius:20px; border:1px solid rgba(255,165,0,.3); box-shadow:0 8px 30px rgba(0,0,0,.6); z-index:20; text-align:center; min-width:150px; transition:opacity .4s; }
+        #timer .label { font-size:.7rem; text-transform:uppercase; letter-spacing:2px; opacity:.6; }
+        #timer .time-display { font-size:1.8rem; font-weight:700; color:#ffa500; font-variant-numeric:tabular-nums; margin-top:2px; }
+        #timer.hidden { opacity:0; pointer-events:none; }
+        #confetti-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; }
+
+        /* Модальное окно */
+        .modal { display:none; position:fixed; z-index:200; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,.92); justify-content:center; align-items:center; animation:modalFadeIn .3s ease; }
+        .modal.active { display:flex; }
+        @keyframes modalFadeIn { from{opacity:0; transform:scale(.95);} to{opacity:1; transform:scale(1);} }
+        .modal-content { max-width:90%; max-height:90%; object-fit:contain; border-radius:8px; box-shadow:0 0 40px rgba(255,255,255,.1); transition:opacity .2s ease; cursor:default; }
+        .modal-close { position:absolute; top:25px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; transition:.2s; z-index:210; background:rgba(0,0,0,.5); width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.2); }
+        .modal-close:hover { color:#ffa500; background:rgba(255,255,255,.1); }
+        .modal-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.5); backdrop-filter:blur(4px); color:#fff; border:none; width:60px; height:60px; border-radius:50%; font-size:2.5rem; cursor:pointer; transition:all .2s; z-index:210; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 20px rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.1); }
+        .modal-nav:hover { background:rgba(255,165,0,.8); color:#000; }
+        .modal-nav.prev { left:20px; }
+        .modal-nav.next { right:20px; }
+        @media (max-width:768px) {
+            .modal-nav { width:44px; height:44px; font-size:1.8rem; }
+            .modal-nav.prev { left:10px; }
+            .modal-nav.next { right:10px; }
+            .modal-close { top:15px; right:15px; width:40px; height:40px; font-size:30px; }
         }
 
-        /* ── Видеофон ── */
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-            opacity: 0.6;
-            transition: opacity 0.8s ease;
+        /* Адаптив */
+        @media (max-width:768px) {
+            header h1 { font-size:2rem; }
+            .tab-btn { font-size:.8rem; padding:6px 16px; }
+            .greeting h1 { font-size:1.8rem; }
+            .greeting .description { font-size:1rem; padding:12px 16px; }
+            .carousel-slide { height:300px; }
+            .carousel-btn { width:36px; height:36px; font-size:1.2rem; }
+            .audio-player { padding:10px 14px; flex-wrap:wrap; gap:10px; }
+            .audio-player .time { min-width:60px; }
+            #timer { bottom:20px; right:20px; padding:10px 16px; min-width:120px; }
+            #timer .time-display { font-size:1.4rem; }
+            .pause-btn { width:34px; height:34px; font-size:1rem; bottom:62px; right:14px; }
+        }
+        @media (max-width:480px) {
+            .carousel-slide { height:220px; }
+            .carousel-slide .caption { font-size:.8rem; padding:4px 12px; margin:0 10px; bottom:10px; }
         }
 
-        /* ── Частицы ── */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* ── Шапка ── */
-        header {
-            text-align: center;
-            padding: 30px 20px 10px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            border-bottom: 2px solid rgba(255, 165, 0, 0.3);
-        }
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #ffa500, #ff6a00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
-        }
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-top: 6px;
-            color: #ddd;
-        }
-
-        /* ── Навигация ── */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px 15px;
-            padding: 20px 15px 10px;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(6px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .tab-btn {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            color: #ccc;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(4px);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tab-btn i {
-            font-size: 1.1rem;
-        }
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 165, 0, 0.5);
-            color: #fff;
-        }
-        .tab-btn.active {
-            background: #ffa500;
-            border-color: #ffa500;
-            color: #000;
-            box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
-        }
-
-        /* ── Контент вкладок ── */
-        .tab-content {
-            display: none;
-            padding: 30px 20px 60px;
-            max-width: 1100px;
-            margin: 0 auto;
-            animation: fadeIn 0.5s ease;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .greeting {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .greeting h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
-            margin-bottom: 10px;
-        }
-        .greeting h1 i {
-            margin-right: 12px;
-        }
-        .greeting .description {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 10px auto 0;
-            opacity: 0.9;
-            line-height: 1.7;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 18px 28px;
-            border-radius: 20px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: left;
-        }
-        .greeting .description i {
-            margin-right: 8px;
-            color: var(--accent, #ffa500);
-        }
-
-        /* ── Карусель ── */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .carousel-inner {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #1a1a1a;
-            position: relative;
-            cursor: pointer; /* указывает, что по клику можно увеличить */
-        }
-        .carousel-slide img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            user-select: none;
-            pointer-events: auto; /* чтобы клик срабатывал */
-        }
-        .carousel-slide .caption {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            padding: 8px 16px;
-            font-size: 0.95rem;
-            color: #fff;
-            margin: 0 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-style: italic;
-            pointer-events: none; /* чтобы не мешать клику по фото */
-        }
-
-        /* Кнопки навигации */
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            color: #fff;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            font-size: 1.6rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        }
-        .carousel-btn:hover {
-            background: rgba(255, 165, 0, 0.8);
-            color: #000;
-        }
-        .carousel-btn.prev { left: 12px; }
-        .carousel-btn.next { right: 12px; }
-
-        /* Точки */
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 0 10px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-        }
-        .carousel-dots .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .carousel-dots .dot.active {
-            background: #ffa500;
-            transform: scale(1.25);
-            box-shadow: 0 0 12px rgba(255, 165, 0, 0.6);
-        }
-
-        /* ── Кнопка паузы (вместо панели управления) ── */
-        .pause-btn {
-            position: absolute;
-            bottom: 70px; /* над точками */
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            color: #fff;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: 6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        }
-        .pause-btn:hover {
-            background: rgba(255, 165, 0, 0.8);
-            color: #000;
-        }
-
-        /* ── Аудиоплеер ── */
-        .audio-player {
-            max-width: 500px;
-            margin: 25px auto 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            padding: 12px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-        .audio-player .play-btn {
-            background: #ffa500;
-            border: none;
-            color: #000;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .audio-player .play-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
-        }
-        .audio-player .progress-container {
-            flex: 1;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-        }
-        .audio-player .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #ffa500;
-            border-radius: 10px;
-            transition: width 0.1s linear;
-        }
-        .audio-player .time {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            font-variant-numeric: tabular-nums;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        /* ── Таймер ── */
-        #timer {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(12px);
-            padding: 14px 22px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 165, 0, 0.3);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-            z-index: 20;
-            text-align: center;
-            min-width: 150px;
-            transition: opacity 0.4s;
-        }
-        #timer .label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.6;
-        }
-        #timer .time-display {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffa500;
-            font-variant-numeric: tabular-nums;
-            margin-top: 2px;
-        }
-        #timer.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* ── Конфетти ── */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        /* ── Модальное окно для фото ── */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 200;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-            animation: modalFadeIn 0.3s ease;
-        }
-        .modal.active {
-            display: flex;
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 0 40px rgba(255,255,255,0.1);
-        }
-        .modal-close {
-            position: absolute;
-            top: 25px;
-            right: 35px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            z-index: 210;
-            background: rgba(0,0,0,0.5);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .modal-close:hover {
-            color: #ffa500;
-            background: rgba(255,255,255,0.1);
-        }
-
-        /* ── Адаптив ── */
-        @media (max-width: 768px) {
-            header h1 { font-size: 2rem; }
-            .tab-btn { font-size: 0.8rem; padding: 6px 16px; }
-            .greeting h1 { font-size: 1.8rem; }
-            .greeting .description { font-size: 1rem; padding: 12px 16px; }
-            .carousel-slide { height: 300px; }
-            .carousel-btn { width: 36px; height: 36px; font-size: 1.2rem; }
-            .audio-player { padding: 10px 14px; flex-wrap: wrap; gap: 10px; }
-            .audio-player .time { min-width: 60px; }
-            #timer { bottom: 20px; right: 20px; padding: 10px 16px; min-width: 120px; }
-            #timer .time-display { font-size: 1.4rem; }
-            .pause-btn { width: 34px; height: 34px; font-size: 1rem; bottom: 62px; right: 14px; }
-        }
-        @media (max-width: 480px) {
-            .carousel-slide { height: 220px; }
-            .carousel-slide .caption { font-size: 0.8rem; padding: 4px 12px; margin: 0 10px; bottom: 10px; }
-        }
-
-        /* ── Тематические цвета ── */
-        .theme-yarik { --accent: #e0a343; }
-        .theme-olya { --accent: #f7a1c4; }
-        .theme-andrey { --accent: #2ecc71; }
-        .theme-andrey_m { --accent: #ff7700; }
-        .theme-vanusha { --accent: #ff3b8a; }
-        .theme-nikita { --accent: #6fcf97; }
-        .theme-mikhail { --accent: #d4a017; }
-
-        .tab-btn.active { background: var(--accent, #ffa500); border-color: var(--accent, #ffa500); color: #000; }
-        .carousel-dots .dot.active { background: var(--accent, #ffa500); box-shadow: 0 0 12px var(--accent, #ffa500); }
-        .audio-player .play-btn { background: var(--accent, #ffa500); }
-        .audio-player .progress-bar { background: var(--accent, #ffa500); }
-        #timer .time-display { color: var(--accent, #ffa500); }
-        .pause-btn { color: var(--accent, #ffa500); border: 1px solid var(--accent, #ffa500); }
-        .pause-btn:hover { background: var(--accent, #ffa500); color: #000; }
+        /* Тематические цвета */
+        .theme-yarik { --accent:#e0a343; }
+        .theme-olya { --accent:#f7a1c4; }
+        .theme-andrey { --accent:#2ecc71; }
+        .theme-andrey_m { --accent:#ff7700; }
+        .theme-vanusha { --accent:#ff3b8a; }
+        .theme-nikita { --accent:#6fcf97; }
+        .theme-mikhail { --accent:#d4a017; }
+        .tab-btn.active { background:var(--accent,#ffa500); border-color:var(--accent,#ffa500); color:#000; }
+        .carousel-dots .dot.active { background:var(--accent,#ffa500); box-shadow:0 0 12px var(--accent,#ffa500); }
+        .audio-player .play-btn { background:var(--accent,#ffa500); }
+        .audio-player .progress-bar { background:var(--accent,#ffa500); }
+        #timer .time-display { color:var(--accent,#ffa500); }
+        .pause-btn { color:var(--accent,#ffa500); border:1px solid var(--accent,#ffa500); }
+        .pause-btn:hover { background:var(--accent,#ffa500); color:#000; }
     </style>
 </head>
 <body>
 
-    <!-- Видеофон -->
-    <video id="bg-video" autoplay muted loop playsinline>
-        <source src="videos/yarik/bg.mp4" type="video/mp4" />
-    </video>
-
-    <!-- Частицы -->
+    <video id="bg-video" autoplay muted loop playsinline><source src="videos/yarik/bg.mp4" type="video/mp4" /></video>
     <canvas id="particles-canvas"></canvas>
-
-    <!-- Конфетти -->
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- Шапка -->
     <header>
         <h1>🎉 С Днём Рождения! 🎂</h1>
         <p>Поздравления от души для каждого из вас</p>
     </header>
 
-    <!-- Навигация -->
     <nav class="tabs" id="tabNav">
         <button class="tab-btn active" data-tab="yarik"><i class="fas fa-car"></i> Ярик</button>
         <button class="tab-btn" data-tab="olya"><i class="fas fa-heart"></i> Оля</button>
@@ -520,20 +128,16 @@
         <button class="tab-btn" data-tab="mikhail"><i class="fas fa-hammer"></i> Михаил</button>
     </nav>
 
-    <!-- Контент -->
     <main>
 
         <!-- ===== Ярик ===== -->
         <div class="tab-content active" id="tab-yarik">
             <div class="greeting">
                 <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
-                <p class="description">
-                    <i class="fas fa-wrench"></i> Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!
-                </p>
+                <p class="description"><i class="fas fa-wrench"></i> Спокойный, как хорошо сваренный шов. Уравновешенный, как карданный вал. В свободное время — повелитель «Чатырки» и хранитель гаражного уюта. Если он молчит — значит, слушает музыку мотора. Если улыбается — значит, завтра опять будет что-то чинить. С днём рождения, наш <strong>гаражный маг</strong>!</p>
             </div>
             <div class="carousel-container" data-person="yarik">
                 <div class="carousel-inner">
-                    <!-- 22 слайда -->
                     <div class="carousel-slide"><img src="images/yarik/1.jpg" alt="Фото 1"><p class="caption">«Чат ы рка — это не просто машина, это стиль жизни»</p></div>
                     <div class="carousel-slide"><img src="images/yarik/2.jpg" alt="Фото 2"><p class="caption">«Когда сварка удалась, и всё ровно»</p></div>
                     <div class="carousel-slide"><img src="images/yarik/3.jpg" alt="Фото 3"><p class="caption">«Улыбка, которая греет даже в гараже»</p></div>
@@ -560,7 +164,6 @@
                 <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
                 <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 <div class="carousel-dots"></div>
-                <!-- Кнопка паузы -->
                 <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
             </div>
             <div class="audio-player" data-audio="audio/yarik.mp3">
@@ -574,13 +177,10 @@
         <div class="tab-content" id="tab-olya">
             <div class="greeting">
                 <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
-                <p class="description">
-                    <i class="fas fa-utensils"></i> Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. Оля — это греющий компромисс между плюшевым мишкой и терминатором. Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.
-                </p>
+                <p class="description"><i class="fas fa-utensils"></i> Сама нежность. Но если довести — может отвесить сковородкой так, что искры полетят. Оля — это греющий компромисс между плюшевым мишкой и терминатором. Знает, как сделать Ярика счастливым, и как быстро поставить на место любого, кто посмеет испортить вечер. Любит — значит, защищает. Иногда — сковородой.</p>
             </div>
             <div class="carousel-container" data-person="olya">
                 <div class="carousel-inner">
-                    <!-- 7 слайдов -->
                     <div class="carousel-slide"><img src="images/olya/1.jpg" alt="Фото 1"><p class="caption">«Самый нежный взгляд, но сковорода наготове»</p></div>
                     <div class="carousel-slide"><img src="images/olya/2.jpg" alt="Фото 2"><p class="caption">«Когда смех — лучшее оружие»</p></div>
                     <div class="carousel-slide"><img src="images/olya/3.jpg" alt="Фото 3"><p class="caption">«Уют и тепло рядом с ней»</p></div>
@@ -605,13 +205,10 @@
         <div class="tab-content" id="tab-andrey">
             <div class="greeting">
                 <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
-                <p class="description">
-                    <i class="fas fa-pills"></i> Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно думает — скорее всего, он просто вспоминает, куда положил ключи.
-                </p>
+                <p class="description"><i class="fas fa-pills"></i> Человек, который всегда пытается сделать хоть что-то, даже если не знает, как. Его девиз: «Главное — начать, а там разберёмся». Скоро он будет спасать жизни, а пока спасает наши посиделки от скуки. Если вы видите, что Андрей сосредоточенно думает — скорее всего, он просто вспоминает, куда положил ключи.</p>
             </div>
             <div class="carousel-container" data-person="andrey">
                 <div class="carousel-inner">
-                    <!-- 8 слайдов -->
                     <div class="carousel-slide"><img src="images/andrey/1.jpg" alt="Фото 1"><p class="caption">«Готовится стать доктором, но пока учит нас, как не простудиться»</p></div>
                     <div class="carousel-slide"><img src="images/andrey/2.jpg" alt="Фото 2"><p class="caption">«Кажется, он вспоминает, куда положил ключи... опять»</p></div>
                     <div class="carousel-slide"><img src="images/andrey/3.jpg" alt="Фото 3"><p class="caption">«Всегда в движении и поиске»</p></div>
@@ -637,13 +234,10 @@
         <div class="tab-content" id="tab-andrey_m">
             <div class="greeting">
                 <h1 style="color:#ff7700;"><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
-                <p class="description">
-                    <i class="fas fa-gamepad"></i> Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он давно перерос всех по харизме, просто скромничает.
-                </p>
+                <p class="description"><i class="fas fa-gamepad"></i> Еврей с ярлыком неудавшегося наркомана (но все мы знаем, что он просто не тот, кого искали спецслужбы). Его настоящие наркотики — музыка ROCKET и бесконечные раунды в CS2. Он готов сутками обсуждать тактики, а на любой вопрос отвечать: «Да ладно, это просто баг». И пусть его называют «младшим» — на самом деле он давно перерос всех по харизме, просто скромничает.</p>
             </div>
             <div class="carousel-container" data-person="andrey_m">
                 <div class="carousel-inner">
-                    <!-- 13 слайдов -->
                     <div class="carousel-slide"><img src="images/andrey_m/1.jpg" alt="Фото 1"><p class="caption">«Его стихия — ракеты и хедшоты»</p></div>
                     <div class="carousel-slide"><img src="images/andrey_m/2.jpg" alt="Фото 2"><p class="caption">«Когда CS2 переходит в реальную жизнь»</p></div>
                     <div class="carousel-slide"><img src="images/andrey_m/3.jpg" alt="Фото 3"><p class="caption">«В центре внимания»</p></div>
@@ -674,13 +268,10 @@
         <div class="tab-content" id="tab-vanusha">
             <div class="greeting">
                 <h1 style="color:#ff3b8a;"><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
-                <p class="description">
-                    <i class="fas fa-smile-wink"></i> Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же станцевать вальс. С ним любая драма превращается в комедию.
-                </p>
+                <p class="description"><i class="fas fa-smile-wink"></i> Лучший фембой на этой и всех соседних планетах. Даже когда он злой — он умиляет до колик. Его очарование работает как непробиваемая броня: вы хотите злиться, а вместо этого улыбаетесь. Ванюша — это живой антидепрессант. Одевается он просто, по-гоповатому, но это придаёт ему особый шарм — как у того самого парня из вашего двора, который может зачитать рэп и тут же станцевать вальс. С ним любая драма превращается в комедию.</p>
             </div>
             <div class="carousel-container" data-person="vanusha">
                 <div class="carousel-inner">
-                    <!-- 10 слайдов -->
                     <div class="carousel-slide"><img src="images/vanusha/1.jpg" alt="Фото 1"><p class="caption">«Этот взгляд способен разоружить любого»</p></div>
                     <div class="carousel-slide"><img src="images/vanusha/2.jpg" alt="Фото 2"><p class="caption">«Король вечеринок, даже если на нём только кепка»</p></div>
                     <div class="carousel-slide"><img src="images/vanusha/3.jpg" alt="Фото 3"><p class="caption">«Обаяние — его суперсила»</p></div>
@@ -708,13 +299,10 @@
         <div class="tab-content" id="tab-nikita">
             <div class="greeting">
                 <h1 style="color:#6fcf97;"><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
-                <p class="description">
-                    <i class="fas fa-wifi"></i> Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки уже стали частью нашего фольклора.
-                </p>
+                <p class="description"><i class="fas fa-wifi"></i> Возможно, пришелец. Точно — повелитель Wi-Fi и переустановки Windows. Его главные суперспособности: ловить связь там, где её нет, и настраивать роутер с закрытыми глазами. Разговаривает с антеннами, дружит с сетевыми кабелями. Забавный, слегка инопланетный, но свой — такой родной, что даже его странные шутки уже стали частью нашего фольклора.</p>
             </div>
             <div class="carousel-container" data-person="nikita">
                 <div class="carousel-inner">
-                    <!-- 2 слайда -->
                     <div class="carousel-slide"><img src="images/nikita/1.jpg" alt="Фото 1"><p class="caption">«Сигнал есть всегда, если рядом Никита»</p></div>
                     <div class="carousel-slide"><img src="images/nikita/2.jpg" alt="Фото 2"><p class="caption">«Смех, который ломает любые битые сектора»</p></div>
                 </div>
@@ -734,13 +322,10 @@
         <div class="tab-content" id="tab-mikhail">
             <div class="greeting">
                 <h1 style="color:#d4a017;"><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
-                <p class="description">
-                    <i class="fas fa-beer"></i> Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. Наша скала, наш кузнец, наш звёздный подгорный властелин.
-                </p>
+                <p class="description"><i class="fas fa-beer"></i> Ну чисто дварф. Пиво — вместо воды, два ствола — для порядка, секира — на случай, если пиво кончится. Он роет подземелья в свободное время, любит посидеть в войсе с ребятами, зарубиться в игрушки и делать лучшие на свете RYTP. Его смех греет нас, как горн в кузнице, а его голос в дискорде — как сигнал к началу вечеринки. Наша скала, наш кузнец, наш звёздный подгорный властелин.</p>
             </div>
             <div class="carousel-container" data-person="mikhail">
                 <div class="carousel-inner">
-                    <!-- 4 слайда -->
                     <div class="carousel-slide"><img src="images/mikhail/1.jpg" alt="Фото 1"><p class="caption">«Борода — это не просто аксессуар, это боевой щит»</p></div>
                     <div class="carousel-slide"><img src="images/mikhail/2.jpg" alt="Фото 2"><p class="caption">«Кружка пива — лучшее лекарство от всех болезней»</p></div>
                     <div class="carousel-slide"><img src="images/mikhail/3.jpg" alt="Фото 3"><p class="caption">«Мастер RYTP и подземелий»</p></div>
@@ -760,19 +345,19 @@
 
     </main>
 
-    <!-- Таймер -->
     <div id="timer">
         <div class="label">До дня рождения</div>
         <div class="time-display" id="timerDisplay">--:--:--:--</div>
     </div>
 
-    <!-- Модальное окно для фото -->
+    <!-- Модальное окно с навигацией -->
     <div id="image-modal" class="modal">
         <span class="modal-close">&times;</span>
+        <button class="modal-nav prev" id="modal-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="modal-nav next" id="modal-next"><i class="fas fa-chevron-right"></i></button>
         <img class="modal-content" id="modal-img" src="" alt="Увеличенное фото" />
     </div>
 
-    <!-- ==================== СКРИПТЫ ==================== -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             'use strict';
@@ -816,7 +401,6 @@
                     window.particles.setColor(color);
                 }
 
-                // Сброс карусели на первый слайд
                 const container = document.querySelector(`.carousel-container[data-person="${tabId}"]`);
                 if (container && container._carousel) {
                     container._carousel.goTo(0);
@@ -829,7 +413,7 @@
                 });
             });
 
-            // ---------- Класс Carousel (с паузой) ----------
+            // ---------- Класс Carousel ----------
             class Carousel {
                 constructor(container) {
                     this.container = container;
@@ -886,13 +470,11 @@
                         if (!this.isPaused) this.startAutoplay();
                     }, { passive: true });
 
-                    // Пауза при наведении
                     this.container.addEventListener('mouseenter', () => this.stopAutoplay());
                     this.container.addEventListener('mouseleave', () => {
                         if (!this.isPaused) this.startAutoplay();
                     });
 
-                    // Кнопка паузы
                     this.pauseBtn.addEventListener('click', () => this.togglePause());
 
                     this.update();
@@ -942,51 +524,138 @@
                         this.pauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
                     }
                 }
+
+                // Метод для получения текущего изображения
+                getCurrentImage() {
+                    const slide = this.slides[this.currentIndex];
+                    return slide ? slide.querySelector('img') : null;
+                }
+
+                // Метод для открытия модалки с текущим фото
+                openModal() {
+                    const img = this.getCurrentImage();
+                    if (img) {
+                        modalImg.src = img.src;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                        // Останавливаем автопрокрутку, пока модалка открыта
+                        this.stopAutoplay();
+                    }
+                }
             }
 
             // Инициализация всех каруселей
+            const carousels = [];
             document.querySelectorAll('.carousel-container').forEach(container => {
-                new Carousel(container);
+                const carousel = new Carousel(container);
+                carousels.push(carousel);
             });
 
-            // ---------- Модальное окно для фото ----------
+            // Находим активную карусель (по видимости)
+            function getActiveCarousel() {
+                for (let c of carousels) {
+                    if (c.container.closest('.tab-content.active')) {
+                        return c;
+                    }
+                }
+                return carousels[0];
+            }
+
+            // ---------- Модальное окно ----------
             const modal = document.getElementById('image-modal');
             const modalImg = document.getElementById('modal-img');
             const modalClose = document.querySelector('.modal-close');
+            const modalPrev = document.getElementById('modal-prev');
+            const modalNext = document.getElementById('modal-next');
 
-            // Открытие модалки по клику на фото
+            // Клик по фото в карусели – открываем модалку
             document.querySelectorAll('.carousel-slide img').forEach(img => {
                 img.addEventListener('click', function(e) {
-                    e.stopPropagation(); // чтобы не вызывать другие клики
-                    const src = this.getAttribute('src');
-                    modalImg.src = src;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // запрещаем скролл
+                    e.stopPropagation();
+                    const activeCarousel = getActiveCarousel();
+                    if (activeCarousel) {
+                        activeCarousel.openModal();
+                    }
                 });
             });
 
-            // Закрытие по клику на фон (на сам modal)
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
-
-            // Закрытие по крестику
-            modalClose.addEventListener('click', closeModal);
-
-            // Закрытие по Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeModal();
-                }
-            });
-
+            // Закрытие
             function closeModal() {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
-                modalImg.src = ''; // очищаем, чтобы не грузилось лишнее
+                modalImg.src = '';
+                // Возобновляем автопрокрутку, если не на паузе
+                const activeCarousel = getActiveCarousel();
+                if (activeCarousel && !activeCarousel.isPaused) {
+                    activeCarousel.startAutoplay();
+                }
             }
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+            modalClose.addEventListener('click', closeModal);
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // Навигация внутри модалки
+            function modalPrevSlide() {
+                const activeCarousel = getActiveCarousel();
+                if (activeCarousel) {
+                    activeCarousel.prev();
+                    const img = activeCarousel.getCurrentImage();
+                    if (img) modalImg.src = img.src;
+                }
+            }
+
+            function modalNextSlide() {
+                const activeCarousel = getActiveCarousel();
+                if (activeCarousel) {
+                    activeCarousel.next();
+                    const img = activeCarousel.getCurrentImage();
+                    if (img) modalImg.src = img.src;
+                }
+            }
+
+            modalPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+                modalPrevSlide();
+            });
+            modalNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+                modalNextSlide();
+            });
+
+            // Клавиши влево-вправо в модалке
+            document.addEventListener('keydown', function(e) {
+                if (!modal.classList.contains('active')) return;
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    modalPrevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    modalNextSlide();
+                }
+            });
+
+            // Обновление модального фото при переключении слайда (если модалка открыта)
+            // Для этого переопределим goTo, чтобы обновлять модалку
+            const originalGoTo = Carousel.prototype.goTo;
+            Carousel.prototype.goTo = function(index) {
+                originalGoTo.call(this, index);
+                if (modal.classList.contains('active')) {
+                    const img = this.getCurrentImage();
+                    if (img) modalImg.src = img.src;
+                }
+            };
+
+            // Также обновляем при переключении вкладки, если модалка открыта – закрываем её
+            const originalSwitchTab = switchTab;
+            switchTab = function(tabId) {
+                if (modal.classList.contains('active')) closeModal();
+                originalSwitchTab(tabId);
+            };
 
             // ---------- Аудиоплееры ----------
             document.querySelectorAll('.audio-player').forEach(player => {
@@ -1103,11 +772,7 @@
             initParticles(particleCount);
             animateParticles();
 
-            window.particles = {
-                setColor: function(color) {
-                    particleColor = color;
-                }
-            };
+            window.particles = { setColor: function(color) { particleColor = color; } };
 
             // ---------- Конфетти ----------
             const canvasC = document.getElementById('confetti-canvas');

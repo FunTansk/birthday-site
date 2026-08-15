@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
     <style>
-        /* все стили без изменений (полный код стилей, как в предыдущем ответе) */
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#0b0b0b; color:#fff; min-height:100vh; overflow-x:hidden; transition:background .5s ease; }
         #bg-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; opacity:.6; transition:opacity .8s ease; }
@@ -20,6 +19,10 @@
         .tab-btn i { font-size:1.1rem; }
         .tab-btn:hover { background:rgba(255,255,255,.05); border-color:rgba(255,165,0,.5); color:#fff; }
         .tab-btn.active { background:#ffa500; border-color:#ffa500; color:#000; box-shadow:0 0 25px rgba(255,165,0,.4); }
+        /* Скрытая вкладка "Мы" – показывается по условию */
+        .tab-btn#tab-btn-we { display:none; }
+        .tab-btn#tab-btn-we.show { display:inline-flex; animation:tabAppear 0.6s ease; }
+        @keyframes tabAppear { 0%{transform:scale(0.8); opacity:0;} 100%{transform:scale(1); opacity:1;} }
         .tab-content { display:none; padding:30px 20px 60px; max-width:1100px; margin:0 auto; animation:fadeIn .5s ease; }
         .tab-content.active { display:block; }
         @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
@@ -91,6 +94,7 @@
         .theme-vanusha { --accent:#ff3b8a; }
         .theme-nikita { --accent:#6fcf97; }
         .theme-mikhail { --accent:#d4a017; }
+        .theme-we { --accent:#ff6b6b; }
         .tab-btn.active { background:var(--accent,#ffa500); border-color:var(--accent,#ffa500); color:#000; }
         .carousel-dots .dot.active { background:var(--accent,#ffa500); box-shadow:0 0 12px var(--accent,#ffa500); }
         .audio-player .play-btn { background:var(--accent,#ffa500); }
@@ -101,6 +105,7 @@
     </style>
 </head>
 <body>
+
     <video id="bg-video" autoplay muted loop playsinline><source src="videos/yarik/bg.mp4" type="video/mp4" /></video>
     <canvas id="particles-canvas"></canvas>
     <canvas id="confetti-canvas"></canvas>
@@ -118,10 +123,12 @@
         <button class="tab-btn" data-tab="vanusha"><i class="fas fa-crown"></i> Ванюша</button>
         <button class="tab-btn" data-tab="nikita"><i class="fas fa-wifi"></i> Никита</button>
         <button class="tab-btn" data-tab="mikhail"><i class="fas fa-hammer"></i> Михаил</button>
+        <!-- Новая вкладка "МЫ" – изначально скрыта -->
+        <button class="tab-btn" data-tab="we" id="tab-btn-we"><i class="fas fa-users"></i> Мы</button>
     </nav>
 
     <main>
-        <!-- ===== Ярик ===== -->
+        <!-- ===== Ярик ===== (содержимое без изменений) -->
         <div class="tab-content active" id="tab-yarik">
             <div class="greeting">
                 <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
@@ -164,7 +171,7 @@
             </div>
         </div>
 
-        <!-- ===== Оля ===== -->
+        <!-- ===== Оля ===== (без изменений) -->
         <div class="tab-content" id="tab-olya">
             <div class="greeting">
                 <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
@@ -192,7 +199,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей ===== -->
+        <!-- ===== Андрей ===== (без изменений) -->
         <div class="tab-content" id="tab-andrey">
             <div class="greeting">
                 <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
@@ -333,6 +340,37 @@
                 <span class="time">0:00 / 0:00</span>
             </div>
         </div>
+
+        <!-- ===== НОВАЯ ВКЛАДКА "МЫ" ===== -->
+        <div class="tab-content" id="tab-we">
+            <div class="greeting">
+                <h1 style="color:#ff6b6b;"><i class="fas fa-users"></i> Мы — одна команда!</h1>
+                <p class="description"><i class="fas fa-heart"></i> Спасибо, что вы есть! Вы — самые лучшие друзья, которых можно пожелать. Эта галерея — для нас, для нашей дружбы и воспоминаний. Пусть они всегда будут тёплыми!</p>
+            </div>
+            <div class="carousel-container" data-person="we">
+                <div class="carousel-inner">
+                    <div class="carousel-slide"><img src="images/we/1.jpg" alt="Фото 1"><p class="caption">«Наша команда»</p></div>
+                    <div class="carousel-slide"><img src="images/we/2.jpg" alt="Фото 2"><p class="caption">«Вместе мы сила»</p></div>
+                    <div class="carousel-slide"><img src="images/we/3.jpg" alt="Фото 3"><p class="caption">«Дружба — это навсегда»</p></div>
+                    <div class="carousel-slide"><img src="images/we/4.jpg" alt="Фото 4"><p class="caption">«Улыбки и тепло»</p></div>
+                    <div class="carousel-slide"><img src="images/we/5.jpg" alt="Фото 5"><p class="caption">«Лучшие моменты»</p></div>
+                    <div class="carousel-slide"><img src="images/we/6.jpg" alt="Фото 6"><p class="caption">«Наша история»</p></div>
+                    <div class="carousel-slide"><img src="images/we/7.jpg" alt="Фото 7"><p class="caption">«Смех и радость»</p></div>
+                    <div class="carousel-slide"><img src="images/we/8.jpg" alt="Фото 8"><p class="caption">«Вместе мы всё преодолеем»</p></div>
+                    <div class="carousel-slide"><img src="images/we/9.jpg" alt="Фото 9"><p class="caption">«С днём рождения, Ярик! И спасибо всем!»</p></div>
+                </div>
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+                <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
+            </div>
+            <div class="audio-player" data-audio="audio/we.mp3">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="progress-container"><div class="progress-bar"></div></div>
+                <span class="time">0:00 / 0:00</span>
+            </div>
+        </div>
+
     </main>
 
     <div id="timer">
@@ -356,6 +394,11 @@
             const tabButtons = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
             const bgVideo = document.getElementById('bg-video');
+            const weButton = document.getElementById('tab-btn-we');
+
+            const visitedTabs = new Set();
+            const requiredTabs = ['yarik', 'olya', 'andrey', 'andrey_m', 'vanusha', 'nikita', 'mikhail'];
+            let weUnlocked = false;
 
             const themeColors = {
                 yarik: '#e0a343',
@@ -364,10 +407,13 @@
                 andrey_m: '#ff7700',
                 vanusha: '#ff3b8a',
                 nikita: '#6fcf97',
-                mikhail: '#d4a017'
+                mikhail: '#d4a017',
+                we: '#ff6b6b'
             };
 
             function switchTab(tabId) {
+                if (tabId === 'we' && !weUnlocked) return;
+
                 tabContents.forEach(tc => tc.classList.remove('active'));
                 tabButtons.forEach(btn => btn.classList.remove('active'));
 
@@ -380,7 +426,12 @@
                 document.documentElement.style.setProperty('--accent', color);
                 document.body.className = 'theme-' + tabId;
 
-                const videoSrc = `videos/${tabId}/bg.mp4`;
+                let videoSrc;
+                if (tabId === 'we') {
+                    videoSrc = `videos/we/bg.mp4`;
+                } else {
+                    videoSrc = `videos/${tabId}/bg.mp4`;
+                }
                 if (bgVideo.src !== videoSrc) {
                     bgVideo.src = videoSrc;
                     bgVideo.load();
@@ -399,7 +450,22 @@
 
             tabButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    switchTab(this.dataset.tab);
+                    const tabId = this.dataset.tab;
+                    if (tabId !== 'we' && !visitedTabs.has(tabId)) {
+                        visitedTabs.add(tabId);
+                        const allVisited = requiredTabs.every(t => visitedTabs.has(t));
+                        if (allVisited && !weUnlocked) {
+                            weUnlocked = true;
+                            weButton.classList.add('show');
+                            if (typeof startConfetti === 'function') {
+                                startConfetti(4000);
+                            }
+                            setTimeout(() => {
+                                alert('🎉 Поздравляем! Вы посмотрели все вкладки! Теперь доступна вкладка "МЫ" — для вас, наших лучших друзей!');
+                            }, 300);
+                        }
+                    }
+                    switchTab(tabId);
                 });
             });
 
@@ -520,7 +586,6 @@
                 openModal() {
                     const img = this.getCurrentImage();
                     if (img) {
-                        // Сохраняем ссылку на эту карусель для навигации в модалке
                         window._modalCarousel = this;
                         modalImg.src = img.src;
                         modal.classList.add('active');
@@ -546,7 +611,6 @@
             document.querySelectorAll('.carousel-slide img').forEach(img => {
                 img.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    // Находим родительскую карусель
                     const slide = this.closest('.carousel-slide');
                     const container = slide.closest('.carousel-container');
                     if (container && container._carousel) {
@@ -611,9 +675,6 @@
                 }
             });
 
-            // При закрытии модалки по клику на фон или крестик сбрасываем _modalCarousel уже сделано.
-
-            // При переключении вкладки закрываем модалку
             const originalSwitchTab = switchTab;
             switchTab = function(tabId) {
                 if (modal.classList.contains('active')) closeModal();
@@ -822,6 +883,7 @@
             }
 
             setTimeout(() => startConfetti(6000), 2000);
+            window.startConfetti = startConfetti;
 
             // ---------- Таймер ----------
             const timerDisplay = document.getElementById('timerDisplay');
@@ -849,6 +911,9 @@
 
             // ---------- Стартовая активация ----------
             switchTab('yarik');
+
+            // Убираем инлайн-стиль, чтобы CSS управлял отображением
+            // weButton.style.display = 'none';  // УДАЛЕНО – теперь только CSS
         });
     </script>
 </body>

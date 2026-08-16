@@ -102,6 +102,36 @@
         #timer .time-display { color:var(--accent,#ffa500); }
         .pause-btn { color:var(--accent,#ffa500); border:1px solid var(--accent,#ffa500); }
         .pause-btn:hover { background:var(--accent,#ffa500); color:#000; }
+
+        /* Стили для скримера (без изменений) */
+        #screamer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        #screamer.show {
+            display: flex !important;
+            animation: screamerFlash 0.8s ease forwards;
+        }
+        @keyframes screamerFlash {
+            0% { opacity: 0; transform: scale(1.3); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+        #screamer img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -112,7 +142,7 @@
 
     <header>
         <h1>🎉 С Днём Рождения! 🎂</h1>
-        <p>Слишком много в нашей жизни значат люди</p> <!-- ЗАМЕНА -->
+        <p>Слишком много в нашей жизни значат люди</p>
     </header>
 
     <nav class="tabs" id="tabNav">
@@ -127,7 +157,7 @@
     </nav>
 
     <main>
-        <!-- ===== Ярик ===== -->
+        <!-- ===== Ярик ===== (все 22 слайда, как было) -->
         <div class="tab-content active" id="tab-yarik">
             <div class="greeting">
                 <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
@@ -170,7 +200,7 @@
             </div>
         </div>
 
-        <!-- ===== Оля ===== -->
+        <!-- ===== Оля ===== (7 слайдов) -->
         <div class="tab-content" id="tab-olya">
             <div class="greeting">
                 <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
@@ -198,7 +228,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей ===== -->
+        <!-- ===== Андрей ===== (8 слайдов) -->
         <div class="tab-content" id="tab-andrey">
             <div class="greeting">
                 <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
@@ -227,7 +257,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей младший ===== -->
+        <!-- ===== Андрей младший ===== (13 слайдов) -->
         <div class="tab-content" id="tab-andrey_m">
             <div class="greeting">
                 <h1 style="color:#ff7700;"><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
@@ -261,7 +291,7 @@
             </div>
         </div>
 
-        <!-- ===== Ванюша ===== -->
+        <!-- ===== Ванюша ===== (10 слайдов) -->
         <div class="tab-content" id="tab-vanusha">
             <div class="greeting">
                 <h1 style="color:#ff3b8a;"><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
@@ -292,7 +322,7 @@
             </div>
         </div>
 
-        <!-- ===== Никита ===== -->
+        <!-- ===== Никита ===== (2 слайда) -->
         <div class="tab-content" id="tab-nikita">
             <div class="greeting">
                 <h1 style="color:#6fcf97;"><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
@@ -315,7 +345,7 @@
             </div>
         </div>
 
-        <!-- ===== Михаил ===== -->
+        <!-- ===== Михаил ===== (4 слайда) -->
         <div class="tab-content" id="tab-mikhail">
             <div class="greeting">
                 <h1 style="color:#d4a017;"><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
@@ -385,6 +415,12 @@
         <img class="modal-content" id="modal-img" src="" alt="Увеличенное фото" />
     </div>
 
+    <!-- Блок скримера с ГИФКОЙ -->
+    <div id="screamer">
+        <img src="images/foxy.gif" alt="Foxy" />
+        <audio id="scream-sound" src="audio/scream.mp3" preload="auto"></audio>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             'use strict';
@@ -398,6 +434,7 @@
             const visitedTabs = new Set();
             const requiredTabs = ['yarik', 'olya', 'andrey', 'andrey_m', 'vanusha', 'nikita', 'mikhail'];
             let weUnlocked = false;
+            let screamerShown = false;
 
             const themeColors = {
                 yarik: '#e0a343',
@@ -445,6 +482,28 @@
                 if (container && container._carousel) {
                     container._carousel.goTo(0);
                 }
+
+                // Скример при переходе на "we"
+                if (tabId === 'we' && !screamerShown) {
+                    screamerShown = true;
+                    showScreamer();
+                }
+            }
+
+            function showScreamer() {
+                const screamer = document.getElementById('screamer');
+                const audio = document.getElementById('scream-sound');
+                if (!screamer) return;
+
+                screamer.classList.add('show');
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play().catch(() => {});
+                }
+                setTimeout(() => {
+                    screamer.classList.remove('show');
+                    screamer.style.display = 'none';
+                }, 800);
             }
 
             tabButtons.forEach(btn => {

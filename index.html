@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Dancing+Script:wght@700&family=Roboto+Mono&family=Press+Start+2P&family=Bebas+Neue&family=Share+Tech+Mono&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
     <style>
+        /* --- Все стили (без изменений) --- */
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#0b0b0b; color:#fff; min-height:100vh; overflow-x:hidden; transition:background .5s ease; }
         #bg-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; opacity:.6; transition:opacity .8s ease; }
@@ -50,6 +51,21 @@
         .audio-player .progress-container { flex:1; height:6px; background:rgba(255,255,255,.15); border-radius:10px; cursor:pointer; position:relative; }
         .audio-player .progress-bar { height:100%; width:0%; background:#ffa500; border-radius:10px; transition:width .1s linear; }
         .audio-player .time { font-size:.85rem; opacity:.8; font-variant-numeric:tabular-nums; min-width:80px; text-align:center; }
+        .no-audio-message {
+            max-width: 500px;
+            margin: 25px auto 0;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #f7a1c4;
+            font-family: 'Dancing Script', cursive;
+            padding: 15px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
         #timer { position:fixed; bottom:30px; right:30px; background:rgba(0,0,0,.75); backdrop-filter:blur(12px); padding:14px 22px; border-radius:20px; border:1px solid rgba(255,165,0,.3); box-shadow:0 8px 30px rgba(0,0,0,.6); z-index:20; text-align:center; min-width:150px; transition:opacity .4s; }
         #timer .label { font-size:.7rem; text-transform:uppercase; letter-spacing:2px; opacity:.6; }
         #timer .time-display { font-size:1.8rem; font-weight:700; color:#ffa500; font-variant-numeric:tabular-nums; margin-top:2px; }
@@ -78,6 +94,7 @@
             .carousel-btn { width:36px; height:36px; font-size:1.2rem; }
             .audio-player { padding:10px 14px; flex-wrap:wrap; gap:10px; }
             .audio-player .time { min-width:60px; }
+            .no-audio-message { font-size:1rem; padding:12px 16px; }
             #timer { bottom:20px; right:20px; padding:10px 16px; min-width:120px; }
             #timer .time-display { font-size:1.4rem; }
             .pause-btn { width:34px; height:34px; font-size:1rem; bottom:62px; right:14px; }
@@ -233,6 +250,31 @@
         #main-content.visible {
             display: block;
         }
+
+        .we-players {
+            max-width: 500px;
+            margin: 20px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .we-players .audio-player {
+            width: 100%;
+            margin: 0;
+        }
+        .we-players .song-title {
+            color: #ffa500;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 10px 0 4px 10px;
+            text-align: left;
+            border-left: 3px solid #ffa500;
+            padding-left: 12px;
+        }
+        .we-players .song-title:first-of-type {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
@@ -273,7 +315,7 @@
         </nav>
 
         <main>
-            <!-- ===== ЯРИК (без аудиоплеера) ===== -->
+            <!-- ===== ЯРИК (без плеера) ===== -->
             <div class="tab-content active" id="tab-yarik">
                 <div class="greeting">
                     <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
@@ -309,10 +351,9 @@
                     <div class="carousel-dots"></div>
                     <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
                 </div>
-                <!-- Аудиоплеер для Ярика УДАЛЁН -->
             </div>
 
-            <!-- ===== ОЛЯ ===== -->
+            <!-- ===== ОЛЯ (без плеера, с текстом) ===== -->
             <div class="tab-content" id="tab-olya">
                 <div class="greeting">
                     <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
@@ -333,11 +374,8 @@
                     <div class="carousel-dots"></div>
                     <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
                 </div>
-                <div class="audio-player" data-audio="audio/olya.mp3">
-                    <button class="play-btn"><i class="fas fa-play"></i></button>
-                    <div class="progress-container"><div class="progress-bar"></div></div>
-                    <span class="time">0:00 / 0:00</span>
-                </div>
+                <!-- Вместо аудиоплеера – текст -->
+                <div class="no-audio-message">Ты и так знаешь, что она тебе скажет)))</div>
             </div>
 
             <!-- ===== АНДРЕЙ ===== -->
@@ -505,10 +543,25 @@
                     <div class="carousel-dots"></div>
                     <button class="pause-btn" title="Пауза/Воспроизведение"><i class="fas fa-pause"></i></button>
                 </div>
-                <div class="audio-player" data-audio="audio/we.mp3">
-                    <button class="play-btn"><i class="fas fa-play"></i></button>
-                    <div class="progress-container"><div class="progress-bar"></div></div>
-                    <span class="time">0:00 / 0:00</span>
+
+                <div class="we-players">
+                    <div class="song-title">🎵 Для тебя, дружище</div>
+                    <div class="audio-player" data-audio="audio/we_song1.mp3">
+                        <button class="play-btn"><i class="fas fa-play"></i></button>
+                        <div class="progress-container"><div class="progress-bar"></div></div>
+                        <span class="time">0:00 / 0:00</span>
+                    </div>
+                    <div class="audio-player" data-audio="audio/we_song2.mp3">
+                        <button class="play-btn"><i class="fas fa-play"></i></button>
+                        <div class="progress-container"><div class="progress-bar"></div></div>
+                        <span class="time">0:00 / 0:00</span>
+                    </div>
+                    <div class="song-title">⚔️ Во имя моего наставника в этом тернистом пути</div>
+                    <div class="audio-player" data-audio="audio/we_song3.mp3">
+                        <button class="play-btn"><i class="fas fa-play"></i></button>
+                        <div class="progress-container"><div class="progress-bar"></div></div>
+                        <span class="time">0:00 / 0:00</span>
+                    </div>
                 </div>
             </div>
         </main>
@@ -536,7 +589,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             'use strict';
 
-            // Авторизация
+            // ---------- Авторизация ----------
             const loginContainer = document.getElementById('login-container');
             const mainContent = document.getElementById('main-content');
             const passwordInput = document.getElementById('password-input');
@@ -563,6 +616,7 @@
             });
             passwordInput.focus();
 
+            // ---------- Инициализация сайта ----------
             function initSite() {
                 // Вкладки
                 const tabButtons = document.querySelectorAll('.tab-btn');
@@ -665,7 +719,7 @@
                     });
                 });
 
-                // Карусель
+                // ---------- Карусель ----------
                 class Carousel {
                     constructor(container) {
                         this.container = container;
@@ -797,7 +851,7 @@
                     carousels.push(carousel);
                 });
 
-                // Модальное окно
+                // ---------- Модальное окно ----------
                 const modal = document.getElementById('image-modal');
                 const modalImg = document.getElementById('modal-img');
                 const modalClose = document.querySelector('.modal-close');
@@ -877,7 +931,7 @@
                     originalSwitchTab(tabId);
                 };
 
-                // Аудиоплееры (только для тех, кто есть)
+                // ---------- Аудиоплееры ----------
                 document.querySelectorAll('.audio-player').forEach(player => {
                     const audio = new Audio(player.dataset.audio);
                     const playBtn = player.querySelector('.play-btn');
@@ -934,7 +988,7 @@
                     });
                 });
 
-                // Частицы
+                // ---------- Частицы ----------
                 const canvasP = document.getElementById('particles-canvas');
                 const ctxP = canvasP.getContext('2d');
                 let particles = [];
@@ -994,7 +1048,7 @@
 
                 window.particles = { setColor: function(color) { particleColor = color; } };
 
-                // Конфетти
+                // ---------- Конфетти ----------
                 const canvasC = document.getElementById('confetti-canvas');
                 const ctxC = canvasC.getContext('2d');
                 let confettiActive = false;
@@ -1081,7 +1135,7 @@
                 setTimeout(() => startConfetti(6000), 2000);
                 window.startConfetti = startConfetti;
 
-                // Таймер
+                // ---------- Таймер ----------
                 const timerDisplay = document.getElementById('timerDisplay');
                 const timerElement = document.getElementById('timer');
                 const targetDate = new Date('2026-08-11T00:00:00').getTime();
@@ -1105,7 +1159,7 @@
                 updateTimer();
                 setInterval(updateTimer, 1000);
 
-                // Стартовая активация
+                // ---------- Стартовая активация ----------
                 const activeTab = document.querySelector('.tab-content.active');
                 if (activeTab) {
                     const tabId = activeTab.id.replace('tab-', '');
@@ -1124,7 +1178,7 @@
                 }
 
                 switchTab('yarik');
-            } // конец initSite()
+            }
         });
     </script>
 </body>

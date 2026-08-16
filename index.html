@@ -103,7 +103,7 @@
         .pause-btn { color:var(--accent,#ffa500); border:1px solid var(--accent,#ffa500); }
         .pause-btn:hover { background:var(--accent,#ffa500); color:#000; }
 
-        /* Стили для скримера (без изменений) */
+        /* Стили для скримера */
         #screamer {
             display: none;
             position: fixed;
@@ -157,7 +157,7 @@
     </nav>
 
     <main>
-        <!-- ===== Ярик ===== (все 22 слайда, как было) -->
+        <!-- ===== Ярик ===== -->
         <div class="tab-content active" id="tab-yarik">
             <div class="greeting">
                 <h1 style="color:#e0a343;"><i class="fas fa-car"></i> Ярик — повелитель «Чатырки»</h1>
@@ -200,7 +200,7 @@
             </div>
         </div>
 
-        <!-- ===== Оля ===== (7 слайдов) -->
+        <!-- ===== Оля ===== -->
         <div class="tab-content" id="tab-olya">
             <div class="greeting">
                 <h1 style="color:#f7a1c4;"><i class="fas fa-heart"></i> Оля — нежность со сковородой</h1>
@@ -228,7 +228,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей ===== (8 слайдов) -->
+        <!-- ===== Андрей ===== -->
         <div class="tab-content" id="tab-andrey">
             <div class="greeting">
                 <h1 style="color:#2ecc71;"><i class="fas fa-stethoscope"></i> Андрей — вечный начинатель</h1>
@@ -257,7 +257,7 @@
             </div>
         </div>
 
-        <!-- ===== Андрей младший ===== (13 слайдов) -->
+        <!-- ===== Андрей младший ===== -->
         <div class="tab-content" id="tab-andrey_m">
             <div class="greeting">
                 <h1 style="color:#ff7700;"><i class="fas fa-rocket"></i> Андрей Младший — фанат ROCKET и CS2</h1>
@@ -291,7 +291,7 @@
             </div>
         </div>
 
-        <!-- ===== Ванюша ===== (10 слайдов) -->
+        <!-- ===== Ванюша ===== -->
         <div class="tab-content" id="tab-vanusha">
             <div class="greeting">
                 <h1 style="color:#ff3b8a;"><i class="fas fa-crown"></i> Ванюша — the best фембой</h1>
@@ -322,7 +322,7 @@
             </div>
         </div>
 
-        <!-- ===== Никита ===== (2 слайда) -->
+        <!-- ===== Никита ===== -->
         <div class="tab-content" id="tab-nikita">
             <div class="greeting">
                 <h1 style="color:#6fcf97;"><i class="fas fa-satellite"></i> Никита — теле2-коммуникатор, возможно, пришелец</h1>
@@ -345,7 +345,7 @@
             </div>
         </div>
 
-        <!-- ===== Михаил ===== (4 слайда) -->
+        <!-- ===== Михаил ===== -->
         <div class="tab-content" id="tab-mikhail">
             <div class="greeting">
                 <h1 style="color:#d4a017;"><i class="fas fa-hammer"></i> Михаил — подгорный властелин</h1>
@@ -506,6 +506,7 @@
                 }, 800);
             }
 
+            // Обработчики кликов по вкладкам
             tabButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tabId = this.dataset.tab;
@@ -967,7 +968,27 @@
             updateTimer();
             setInterval(updateTimer, 1000);
 
-            // ---------- Стартовая активация ----------
+            // ---------- СТАРТОВАЯ АКТИВАЦИЯ ----------
+            // Добавляем текущую активную вкладку в посещённые, чтобы она учитывалась
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab) {
+                const tabId = activeTab.id.replace('tab-', '');
+                visitedTabs.add(tabId);
+                // Проверяем, не все ли уже посещены (маловероятно, но для порядка)
+                const allVisited = requiredTabs.every(t => visitedTabs.has(t));
+                if (allVisited && !weUnlocked) {
+                    weUnlocked = true;
+                    weButton.classList.add('show');
+                    if (typeof startConfetti === 'function') {
+                        startConfetti(4000);
+                    }
+                    setTimeout(() => {
+                        alert('🎉 Поздравляем! Вы посмотрели все вкладки! Теперь доступна вкладка "МЫ" — для вас, наших лучших друзей!');
+                    }, 300);
+                }
+            }
+
+            // Переключаемся на Ярик (уже активна, но для уверенности)
             switchTab('yarik');
         });
     </script>
